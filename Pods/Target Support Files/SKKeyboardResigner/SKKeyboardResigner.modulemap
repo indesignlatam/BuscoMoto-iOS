@@ -1,0 +1,6 @@
+framework module SKKeyboardResigner {
+  umbrella header "SKKeyboardResigner-umbrella.h"
+
+  export *
+  module * { export * }
+}

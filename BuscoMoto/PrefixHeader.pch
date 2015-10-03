@@ -1,0 +1,26 @@
+//
+//  PrefixHeader.pch
+//  BuscoMoto
+//
+//  Created by Paulo Mogollon on 9/23/15.
+//  Copyright © 2015 Indesign Colombia. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import "SKKeyboardResigner.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <MagicalRecord/MagicalRecord.h>
+#import <KVNProgress/KVNProgress.h>
+#import "UICKeyChainStore.h"
+#import "IDCAuthManager.h"
+#import "BMCOAPIManager.h"
+#import "BMCONoAUTHAPIManager.h"
+#import "UIColor+BuscoMoto.h"
+#import "NSString+Helpers.h"
+#import "IDCDate.h"
+#endif /* PrefixHeader_pch */

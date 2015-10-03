@@ -1,0 +1,1 @@
+../../../BMASliders/Component/Classes/BMASlider.h

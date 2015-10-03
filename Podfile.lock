@@ -1,0 +1,92 @@
+PODS:
+  - AFNetworking (2.6.0):
+    - AFNetworking/NSURLConnection (= 2.6.0)
+    - AFNetworking/NSURLSession (= 2.6.0)
+    - AFNetworking/Reachability (= 2.6.0)
+    - AFNetworking/Security (= 2.6.0)
+    - AFNetworking/Serialization (= 2.6.0)
+    - AFNetworking/UIKit (= 2.6.0)
+  - AFNetworking/NSURLConnection (2.6.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.0)
+  - AFNetworking/Security (2.6.0)
+  - AFNetworking/Serialization (2.6.0)
+  - AFNetworking/UIKit (2.6.0):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - AFOAuth2Manager (2.2.0):
+    - AFNetworking/NSURLConnection (~> 2.2)
+  - BMASliders (1.0.0)
+  - CBZSplashView (1.0.0)
+  - CZPicker (0.3.6)
+  - DZNEmptyDataSet (1.7.2)
+  - EAIntroView (2.7.4):
+    - EARestrictedScrollView (~> 0.2.0)
+  - EARestrictedScrollView (0.2.0)
+  - EasyMapping (0.15.2):
+    - EasyMapping/Core (= 0.15.2)
+  - EasyMapping/Core (0.15.2)
+  - JDStatusBarNotification (1.5.2)
+  - KVNProgress (2.2.1)
+  - LMDropdownView (1.0.2)
+  - MagicalRecord (2.3.0)
+  - MCSwipeTableViewCell (2.1.4)
+  - NYTPhotoViewer (0.1.2)
+  - PKYStepper (0.0.1)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
+  - SKKeyboardResigner (0.1.0)
+  - UICKeyChainStore (2.0.6)
+  - XLPagerTabStrip (2.0.0)
+
+DEPENDENCIES:
+  - AFNetworking
+  - AFOAuth2Manager
+  - BMASliders (~> 1.0.0)
+  - CBZSplashView (~> 1.0.0)
+  - CZPicker (~> 0.3.6)
+  - DZNEmptyDataSet
+  - EAIntroView
+  - EasyMapping (~> 0.15.0)
+  - JDStatusBarNotification
+  - KVNProgress
+  - LMDropdownView
+  - MagicalRecord
+  - MCSwipeTableViewCell
+  - NYTPhotoViewer
+  - PKYStepper (= 0.0.1)
+  - SDWebImage (~> 3.7)
+  - SKKeyboardResigner
+  - UICKeyChainStore
+  - XLPagerTabStrip
+
+SPEC CHECKSUMS:
+  AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
+  AFOAuth2Manager: 952eb62e8fd8022971e64c6e8fe28b9e999224af
+  BMASliders: 6a6d6ca5f3f6fefce7ec9823d9c456fd03e106cc
+  CBZSplashView: 9ce4cba22024476ff4a97d6433e7347da6376016
+  CZPicker: bf966778ebd3af6c291b4a4190d08a0e2c5c6974
+  DZNEmptyDataSet: 0ec00bfc230d7450997b60c127afdd0b9f24f3b6
+  EAIntroView: 50b85eedf414260e61330070ffe5947e72493a62
+  EARestrictedScrollView: f86d61e16c61d3e93c84f8e96e83122a2a3b7631
+  EasyMapping: ed12870ba180fbf7ac5538f1534f5623bb8d6b9b
+  JDStatusBarNotification: a36d09ccbb047217572b074a61e7ca10dddc5f0a
+  KVNProgress: 7001d2d16a2755cee5599e8e485befe056f2197b
+  LMDropdownView: 50188c9678eab3690153993d1824b7235d9b7edc
+  MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
+  MCSwipeTableViewCell: 1b303e16c3a26b1982f3a68386e9b8c5fc8344c3
+  NYTPhotoViewer: 874a57dd833238b52ab2e8d1c827356c763626c3
+  PKYStepper: 8dacefbddf9fa2b6aaec2ef828b46a78daa2db7d
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
+  SKKeyboardResigner: 552cd41d13b79d83ccde6c19bf7e25e3b7bf58ff
+  UICKeyChainStore: c5719c814e8bd69e74e4a0fc09daf8f4d6257a59
+  XLPagerTabStrip: 2c69b8e3208432a94e713c198ce597faad5a87bb
+
+COCOAPODS: 0.38.2

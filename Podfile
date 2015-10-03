@@ -1,0 +1,23 @@
+platform :ios, '8.0'
+use_frameworks!
+
+pod 'AFNetworking'
+pod 'AFOAuth2Manager'
+pod 'MagicalRecord'
+pod 'EasyMapping', '~> 0.15.0'
+pod 'UICKeyChainStore'
+pod 'SDWebImage', '~>3.7'
+pod 'CBZSplashView', '~> 1.0.0'
+pod 'NYTPhotoViewer'
+pod 'XLPagerTabStrip'
+pod 'SKKeyboardResigner'
+pod 'KVNProgress'
+pod 'CZPicker', '~> 0.3.6'
+pod 'PKYStepper', '0.0.1'
+pod 'BMASliders', '~> 1.0.0'
+
+pod 'LMDropdownView'
+pod 'MCSwipeTableViewCell'
+pod 'JDStatusBarNotification'
+pod 'DZNEmptyDataSet'
+pod 'EAIntroView'
