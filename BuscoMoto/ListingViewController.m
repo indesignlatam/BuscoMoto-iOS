@@ -77,16 +77,25 @@
         [numberFormatter setNumberStyle: NSNumberFormatterDecimalStyle];
 
         if(indexPath.row == 0){
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ordering" ascending:YES];
+            NSArray *images = [self.listing.images sortedArrayUsingDescriptors:@[sortDescriptor]];
+            
+            
             CGFloat width   = self.tableView.frame.size.width;
             CGFloat height  = self.tableView.frame.size.width/1.777777777;
             
             UIScrollView *slideShow = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
+            [slideShow setDelegate:self];
             [slideShow setPagingEnabled: YES];
+            [slideShow setShowsHorizontalScrollIndicator:NO];
+            
+            CGFloat xP = (width/2) - ((width/2)/2) - ((width/2)/2)/4;//??? But it works
+            _pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(xP, height-30, width/2, 15)];
+            [_pageControl setNumberOfPages:images.count];
+            [_pageControl setCurrentPage:0];
+            [_pageControl setTag:1];            
             
             int x = 0;
-            
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"ordering" ascending:YES];
-            NSArray *images = [self.listing.images sortedArrayUsingDescriptors:@[sortDescriptor]];
             
             if(images.count > 0){
                 for (int i = 0; i < images.count; i++) {
@@ -114,10 +123,10 @@
             
             [slideShow setContentSize:CGSizeMake(x, slideShow.frame.size.height)];
             [slideShow setContentOffset:CGPointMake(0, 0)];
-            [slideShow setShowsHorizontalScrollIndicator:NO];
             
             [cell sizeToFit];
             [cell.contentView addSubview:slideShow];
+            [cell.contentView addSubview:_pageControl];
             
             UIButton *likeButton = [[UIButton alloc]initWithFrame:CGRectMake(width-50, 10, 30, 30)];
             UIImage *image = [UIImage imageNamed:@"like"];
@@ -385,8 +394,16 @@
     }];
 }
 
-#pragma mark - XLPagerTabStripViewControllerDelegate
+#pragma mark Slideshow delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat pageWidth = scrollView.frame.size.width; // you need to have a **iVar** with getter for scrollView
+    float fractionalPage = scrollView.contentOffset.x / pageWidth;
+    NSInteger page = lround(fractionalPage);
+    NSLog(@"PAGE: %ld", (long)page);
+    self.pageControl.currentPage = page; // you need to have a **iVar** with getter for pageControl
+}
 
+#pragma mark - XLPagerTabStripViewControllerDelegate
 -(NSString *)titleForPagerTabStripViewController:(XLPagerTabStripViewController *)pagerTabStripViewController{
     return @"Información";
 }

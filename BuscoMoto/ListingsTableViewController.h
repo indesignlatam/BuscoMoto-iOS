@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIScrollView+EmptyDataSet.h"
 
 #import "SearchViewController.h"
 
-@interface ListingsTableViewController : UITableViewController <UITableViewDelegate, SearchViewControllerDelegate>
+@interface ListingsTableViewController : UITableViewController <UITableViewDelegate, SearchViewControllerDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, retain) NSMutableArray *listings;
 @property BOOL loading;

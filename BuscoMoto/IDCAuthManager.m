@@ -19,8 +19,8 @@
 
 #import "IDCAuthManager.h"
 
-//static NSString * const K_BASEURL       = @"http://local.buscomoto.co/";
-static NSString * const K_BASEURL       = @"http://dev.buscomoto.co/";
+static NSString * const K_BASEURL       = @"http://local.buscomoto.co/";
+//static NSString * const K_BASEURL       = @"http://dev.buscomoto.co/";
 static NSString * const K_CLIENTID      = @"pruebas";
 static NSString * const K_CLIENTSECRET  = @"246253d6839bc36084d19545a0d1b88fe07ee099";
 static NSString * const K_TOKENPATH     = @"oauth/access_token";

@@ -25,6 +25,9 @@
     [self.navigationItem setTitleView:iv];
     [self.navigationItem setTitle:@"Listings"];
     
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
+    
     _currentPage = [NSNumber numberWithInt:0];
     
     UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
@@ -94,6 +97,15 @@
                 }else{
                     self.listings = [data mutableCopy];
                 }
+                
+                
+                // A little trick for removing the cell separators
+                if(self.listings.count == 0){
+                    self.tableView.tableFooterView = [UIView new];
+                }else{
+                    self.tableView.tableFooterView = nil;
+                }
+                
                 //NSLog(@"PAGINATOR: %@", paginator);
                 _currentPage    = [paginator objectForKey:@"current_page"];
                 _lastPage       = [paginator objectForKey:@"last_page"];
@@ -197,6 +209,7 @@
     }
 }
 
+
 - (void)showSearch{
     UIStoryboard *storyboard = self.storyboard;
     SearchViewController *view = [storyboard instantiateViewControllerWithIdentifier:@"searchView"];
@@ -218,6 +231,67 @@
 - (void)searchViewController:(SearchViewController *)viewController didFinish:(NSDictionary *)params{
     _params = [params mutableCopy];
     [self loadData:NO];
+}
+
+
+#pragma mark DNZ Delegate
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView{
+    return YES;
+}
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView{
+    return [UIImage imageNamed:@"icon_turism"];
+}
+
+- (BOOL)emptyDataSetShouldAllowImageViewAnimate:(UIScrollView *)scrollView{
+    return YES;
+}
+
+- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"transform"];
+    
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 1.0)];
+    
+    animation.duration = 0.25;
+    animation.cumulative = YES;
+    animation.repeatCount = MAXFLOAT;
+    
+    return animation;
+}
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView{
+    NSString *text = @"No hemos encontrado ningun resultado.";
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName: [UIColor darkGrayColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView{
+    NSString *text = @"Intenta buscar en otra categoria o con parametros diferentes.";
+    
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0f],
+                                 NSForegroundColorAttributeName: [UIColor lightGrayColor],
+                                 NSParagraphStyleAttributeName: paragraph};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state{
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f]};
+    
+    return [[NSAttributedString alloc] initWithString:@"Buscar" attributes:attributes];
+}
+
+- (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView{
+    // Do something
+    [self showSearch];
 }
 
 @end

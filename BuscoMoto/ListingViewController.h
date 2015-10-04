@@ -15,5 +15,6 @@
 @interface ListingViewController : UITableViewController <XLPagerTabStripChildItem>
 
 @property (nonatomic, retain) Listing *listing;
+@property (nonatomic, retain) UIPageControl *pageControl;
 
 @end

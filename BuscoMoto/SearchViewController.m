@@ -307,7 +307,7 @@
 
 - (void)setPosibleModels:(NSArray*)manufacturers{
     NSMutableArray *manIDS = [[NSMutableArray alloc]init];
-    if([[manufacturers objectAtIndex:0] isKindOfClass:NSManagedObject.class]){
+    if([[manufacturers firstObject] isKindOfClass:NSManagedObject.class]){
         for (Manufacturer *man in manufacturers) {
             [manIDS addObject:man.manufacturerID];
         }
@@ -315,6 +315,7 @@
         manIDS = manufacturers.mutableCopy;
     }
     
+    // TODO: if no manufacturer selected delete all selected models
     
     NSPredicate *filter = [NSPredicate predicateWithFormat:@"manufacturer.manufacturerID IN %@", manIDS];
     NSArray *array = [Reference MR_findAllWithPredicate:filter];

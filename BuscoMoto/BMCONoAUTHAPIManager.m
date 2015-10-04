@@ -14,7 +14,8 @@
 #import "Message.h"
 #import "Reference.h"
 
-static NSString * const connectionManagerBaseURL = @"http://dev.buscomoto.co/api/v2";
+static NSString * const connectionManagerBaseURL = @"http://local.buscomoto.co/api/v2";
+//static NSString * const connectionManagerBaseURL = @"http://dev.buscomoto.co/api/v2";
 
 @implementation BMCONoAUTHAPIManager
 
