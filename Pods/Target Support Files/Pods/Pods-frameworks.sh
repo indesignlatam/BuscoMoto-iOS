@@ -70,6 +70,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods/PKYStepper.framework'
   install_framework 'Pods/SDWebImage.framework'
   install_framework 'Pods/SKKeyboardResigner.framework'
+  install_framework 'Pods/TOCropViewController.framework'
   install_framework 'Pods/UICKeyChainStore.framework'
   install_framework 'Pods/XLPagerTabStrip.framework'
 fi
@@ -92,6 +93,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods/PKYStepper.framework'
   install_framework 'Pods/SDWebImage.framework'
   install_framework 'Pods/SKKeyboardResigner.framework'
+  install_framework 'Pods/TOCropViewController.framework'
   install_framework 'Pods/UICKeyChainStore.framework'
   install_framework 'Pods/XLPagerTabStrip.framework'
 fi

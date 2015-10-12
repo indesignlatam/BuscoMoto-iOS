@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "UIScrollView+EmptyDataSet.h"
+#import "MyListingCell.h"
 
-@interface MyListingsTableViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface MyListingsTableViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, MCSwipeTableViewCellDelegate>
 
 @property (nonatomic, retain) NSMutableArray *listings;
 @property BOOL loading;
 @property (nonatomic, retain) NSNumber *currentPage;
 @property (nonatomic, retain) NSNumber *lastPage;
 @property (nonatomic, strong) UIActivityIndicatorView *loadMoreActivityView;
-
+@property (nonatomic, strong) MyListingCell *selectedCell;
 @end

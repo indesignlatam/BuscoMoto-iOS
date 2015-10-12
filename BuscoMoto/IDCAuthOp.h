@@ -10,6 +10,8 @@
 #import "IDCAuthManager.h"
 #import "AFNetworking.h"
 
+typedef void (^BodyBlock)(id <AFMultipartFormData>formData);
+
 @interface IDCAuthOp : NSObject <AuthOp>
 
 @property (strong, readwrite) id responseObject;
@@ -18,5 +20,11 @@
                       requestMethod:(NSString *)method
                             forPath:(NSString *)path
                      withParameters:(NSDictionary *)params;
+
+- (IDCAuthOp *)initWithAFHTTPClient:(AFHTTPRequestOperationManager *)httpRequestOpManager
+                      requestMethod:(NSString *)method
+                            forPath:(NSString *)path
+                     withParameters:(NSDictionary *)params
+                          bodyBlock:(BodyBlock)bodyBlock;
 
 @end

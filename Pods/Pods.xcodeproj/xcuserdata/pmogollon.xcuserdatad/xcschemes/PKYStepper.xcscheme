@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E055F71FA9E510490E46DF48"
+               BlueprintIdentifier = "E871B7404C15F396C59555DE"
                BuildableName = "PKYStepper.framework"
                BlueprintName = "PKYStepper"
                ReferencedContainer = "container:Pods.xcodeproj">

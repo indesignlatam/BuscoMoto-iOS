@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MCSwipeTableViewCell.h"
 #import "Listing.h"
 
-@interface MyListingCell : UITableViewCell
+@interface MyListingCell : MCSwipeTableViewCell
 
 @property (strong, nonatomic) IBOutlet UIImageView *listingImage;
 @property (strong, nonatomic) IBOutlet UILabel *listingTitle;

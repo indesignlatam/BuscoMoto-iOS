@@ -88,12 +88,12 @@
             [slideShow setDelegate:self];
             [slideShow setPagingEnabled: YES];
             [slideShow setShowsHorizontalScrollIndicator:NO];
+            [slideShow setTag:999];
             
             CGFloat xP = (width/2) - ((width/2)/2) - ((width/2)/2)/4;//??? But it works
             _pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(xP, height-30, width/2, 15)];
             [_pageControl setNumberOfPages:images.count];
             [_pageControl setCurrentPage:0];
-            [_pageControl setTag:1];            
             
             int x = 0;
             
@@ -396,11 +396,13 @@
 
 #pragma mark Slideshow delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat pageWidth = scrollView.frame.size.width; // you need to have a **iVar** with getter for scrollView
-    float fractionalPage = scrollView.contentOffset.x / pageWidth;
-    NSInteger page = lround(fractionalPage);
-    NSLog(@"PAGE: %ld", (long)page);
-    self.pageControl.currentPage = page; // you need to have a **iVar** with getter for pageControl
+    if(scrollView.tag == 999){
+        CGFloat pageWidth = scrollView.frame.size.width; // you need to have a **iVar** with getter for scrollView
+        float fractionalPage = scrollView.contentOffset.x / pageWidth;
+        NSInteger page = lround(fractionalPage);
+        NSLog(@"PAGE: %ld", (long)page);
+        self.pageControl.currentPage = page; // you need to have a **iVar** with getter for pageControl
+    }
 }
 
 #pragma mark - XLPagerTabStripViewControllerDelegate

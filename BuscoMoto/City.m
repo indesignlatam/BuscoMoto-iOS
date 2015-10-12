@@ -10,10 +10,14 @@
 
 @implementation City
 
-+(EKObjectMapping *)objectMapping{
+@dynamic cityID;
+@dynamic name;
+@dynamic ordering;
+
++(EKManagedObjectMapping *)objectMapping{
     //
-    return [EKObjectMapping mappingForClass:self withBlock:^(EKObjectMapping *mapping) {
-        [mapping mapPropertiesFromDictionary:@{@"id"                : @"objectID",
+    return [EKManagedObjectMapping mappingForEntityName:NSStringFromClass([City class]) withBlock:^(EKManagedObjectMapping *mapping) {
+        [mapping mapPropertiesFromDictionary:@{@"id"                : @"cityID",
                                                @"name"              : @"name",
                                                @"ordering"          : @"ordering",
                                                }];

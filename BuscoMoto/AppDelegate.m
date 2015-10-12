@@ -21,7 +21,7 @@ static NSString * const K_KEYCHAIN_STORE = @"com.IDC.BMCO";
     // Override point for customization after application launch.
     [MagicalRecord setupCoreDataStack];
     
-    [[IDCAuthManager sharedInstance]resignAuthorization];
+    //[[IDCAuthManager sharedInstance]resignAuthorization];
     
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:28.0/255.0 green:123.0/255.0 blue:186.0/255.0 alpha:1]];
     [[UINavigationBar appearance] setTranslucent:NO];

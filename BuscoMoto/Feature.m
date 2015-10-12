@@ -10,10 +10,15 @@
 
 @implementation Feature
 
-+(EKObjectMapping *)objectMapping{
+@dynamic featureID;
+@dynamic name;
+@dynamic slug;
+@dynamic categoryID;
+
++(EKManagedObjectMapping *)objectMapping{
     //
-    return [EKObjectMapping mappingForClass:self withBlock:^(EKObjectMapping *mapping) {
-        [mapping mapPropertiesFromDictionary:@{@"id"                : @"objectID",
+    return [EKManagedObjectMapping mappingForEntityName:NSStringFromClass([Feature class]) withBlock:^(EKManagedObjectMapping *mapping) {
+        [mapping mapPropertiesFromDictionary:@{@"id"                : @"featureID",
                                                @"name"              : @"name",
                                                @"slug"              : @"slug",
                                                @"category_id"       : @"categoryID",

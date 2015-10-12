@@ -20,7 +20,7 @@
 + (NSDateFormatter *)hourFormatter;
 + (NSString*)getDayName:(int)dayNumber;
 + (NSString*)getTimeSinse:(NSTimeInterval)timeInt;
-+ (NSString*)getOpensOrClosesIn:(NSTimeInterval)timeint or:(NSTimeInterval)timeintDue;
++ (NSString*)getExpiresIn:(NSDate*)date;
 + (NSString*)getArrivesIn:(NSTimeInterval)timeint;
 
 @end

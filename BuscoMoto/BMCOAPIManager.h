@@ -19,5 +19,9 @@ typedef void (^GetArrayCompletitionBlock)(NSArray *data, NSError *error);
 - (void)GETUserWithEmail:(NSString *)email onCompletion:(GetObjectCompletitionBlock)completionBlock;
 - (void)GETListings:(GetArrayCompletitionBlock)completionBlock;
 - (void)POSTLikeWithParams:(NSNumber *)objectID onCompletion:(GetBOOLCompletitionBlock)completionBlock;
+- (void)POSTRenovateListingWithID:(NSNumber *)objectID onCompletion:(GetObjectCompletitionBlock)completionBlock;
+- (void)DELETEListingWithID:(NSNumber *)objectID onCompletion:(GetBOOLCompletitionBlock)completionBlock;
+- (void)POSTListingWithParams:(NSDictionary *)params onCompletion:(GetObjectCompletitionBlock)completionBlock;
+- (void)POSTListingImage:(UIImage*)image withParams:(NSDictionary *)params onCompletion:(GetBOOLCompletitionBlock)completionBlock;
 
 @end

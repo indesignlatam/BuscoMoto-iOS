@@ -39,7 +39,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"GET"
-                                                    forPath:@"api/v2/user_email"
+                                                    forPath:@"v2/user_email"
                                              withParameters:@{@"email" : email}];
     [manager authorizedOp:op
                 onSuccess:^() {
@@ -68,7 +68,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"GET"
-                                                    forPath:@"api/v2/user/listings"
+                                                    forPath:@"v2/user/listings"
                                              withParameters:nil];
     [manager authorizedOp:op
                 onSuccess:^() {
@@ -96,7 +96,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"POST"
-                                                    forPath:[NSString stringWithFormat:@"%@%@%@", @"api/v2/listings/", objectID, @"/like"]
+                                                    forPath:[NSString stringWithFormat:@"%@%@%@", @"v2/listings/", objectID, @"/like"]
                                              withParameters:nil];
     [manager authorizedOp:op
                 onSuccess:^() {
@@ -105,6 +105,118 @@
                             id data = [op.responseObject objectForKey:@"data"];
                             if([data isKindOfClass:[NSDictionary class]]){
                                 completionBlock([[data objectForKey:@"liked"] boolValue], nil);
+                            }
+                        }
+                    }@catch (NSException *ex) {
+                        NSLog(@"Exception catched: %@", ex.description);
+                    }
+                }
+                onFailure:^(NSString *localizedDescription) {
+                    NSLog(@"%@", localizedDescription);
+                    completionBlock(nil, op.error);
+                }];
+}
+
+- (void)POSTListingWithParams:(NSDictionary *)params onCompletion:(GetObjectCompletitionBlock)completionBlock{
+    IDCAuthManager *manager = [IDCAuthManager sharedInstance];
+    IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
+                                              requestMethod:@"POST"
+                                                    forPath:@"v2/listings"
+                                             withParameters:params];
+    [manager authorizedOp:op
+                onSuccess:^() {
+                    @try {
+                        NSLog(@"RO; %@", op.responseObject);
+                        if([op.responseObject isKindOfClass:[NSDictionary class]]){
+                            id data = [op.responseObject objectForKey:@"data"];
+                            if([data isKindOfClass:[NSDictionary class]]){
+                                Listing *listing = [EKMapper objectFromExternalRepresentation:data withMapping:[Listing objectMapping]];
+                                
+                                completionBlock(listing, nil);
+                            }
+                        }
+                    }@catch (NSException *ex) {
+                        NSLog(@"Exception catched: %@", ex.description);
+                    }
+                }
+                onFailure:^(NSString *localizedDescription) {
+                    NSLog(@"%@", localizedDescription);
+                    completionBlock(nil, op.error);
+                }];
+}
+
+- (void)POSTListingImage:(UIImage*)image withParams:(NSDictionary *)params onCompletion:(GetBOOLCompletitionBlock)completionBlock{
+    IDCAuthManager *manager = [IDCAuthManager sharedInstance];
+    IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
+                                              requestMethod:@"POST"
+                                                    forPath:@"v2/listings/image"
+                                             withParameters:params
+                                                  bodyBlock:^(id <AFMultipartFormData>formData) {
+                                                      NSData *data = UIImageJPEGRepresentation(image, 0.8);
+                                                      [formData appendPartWithFileData:data name:@"image" fileName:@"temp_image.jpeg" mimeType:@"image/jpeg"];
+                                                  }];
+    [manager authorizedOp:op
+                onSuccess:^() {
+                    @try {
+                        NSLog(@"RO; %@", op.responseObject);
+                        if([op.responseObject isKindOfClass:[NSDictionary class]]){
+                            //id data = [op.responseObject objectForKey:@"data"];
+//                            if([data isKindOfClass:[NSDictionary class]]){
+//                                Listing *listing = [EKMapper objectFromExternalRepresentation:data withMapping:[Listing objectMapping]];
+//                                
+//                                
+//                            }
+                            completionBlock(true, nil);
+                        }
+                    }@catch (NSException *ex) {
+                        NSLog(@"Exception catched: %@", ex.description);
+                    }
+                }
+                onFailure:^(NSString *localizedDescription) {
+                    NSLog(@"ERROR LD: %@", localizedDescription);
+                    completionBlock(nil, op.error);
+                }];
+}
+
+- (void)POSTRenovateListingWithID:(NSNumber *)objectID onCompletion:(GetObjectCompletitionBlock)completionBlock{
+    IDCAuthManager *manager = [IDCAuthManager sharedInstance];
+    IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
+                                              requestMethod:@"POST"
+                                                    forPath:[NSString stringWithFormat:@"v2/listings/%@/renovate", objectID]
+                                             withParameters:nil];
+    [manager authorizedOp:op
+                onSuccess:^() {
+                    @try {
+                        if([op.responseObject isKindOfClass:[NSDictionary class]]){
+                            id data = [op.responseObject objectForKey:@"data"];
+                            if([data isKindOfClass:[NSDictionary class]]){
+                                Listing *listing = [EKMapper objectFromExternalRepresentation:data withMapping:[Listing objectMapping]];
+                                completionBlock(listing, nil);
+                            }
+                        }
+                    }@catch (NSException *ex) {
+                        NSLog(@"Exception catched: %@", ex.description);
+                    }
+                }
+                onFailure:^(NSString *localizedDescription) {
+                    NSLog(@"%@", localizedDescription);
+                    completionBlock(nil, op.error);
+                }];
+}
+
+- (void)DELETEListingWithID:(NSNumber *)objectID onCompletion:(GetBOOLCompletitionBlock)completionBlock{
+    IDCAuthManager *manager = [IDCAuthManager sharedInstance];
+    IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
+                                              requestMethod:@"DELETE"
+                                                    forPath:[NSString stringWithFormat:@"v2/listings/%@", objectID]
+                                             withParameters:nil];
+    [manager authorizedOp:op
+                onSuccess:^() {
+                    @try {
+                        if([op.responseObject isKindOfClass:[NSDictionary class]]){
+                            id data = [op.responseObject objectForKey:@"data"];
+                            if([data isKindOfClass:[NSDictionary class]]){
+                                completionBlock([data objectForKey:@"success"], nil);
                             }
                         }
                     }@catch (NSException *ex) {

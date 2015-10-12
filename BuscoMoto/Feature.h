@@ -6,12 +6,11 @@
 //  Copyright © 2015 Indesign Colombia. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "EKMappingProtocol.h"
+#import <EasyMapping/EasyMapping.h>
 
-@interface Feature : NSObject <EKMappingProtocol>
+@interface Feature : EKManagedObjectModel
 
-@property (nonatomic, retain) NSNumber *objectID;
+@property (nonatomic, retain) NSNumber *featureID;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *slug;
 @property (nonatomic, retain) NSNumber *categoryID;

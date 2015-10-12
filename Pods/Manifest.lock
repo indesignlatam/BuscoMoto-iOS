@@ -43,6 +43,7 @@ PODS:
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
   - SKKeyboardResigner (0.1.0)
+  - TOCropViewController (1.0.8)
   - UICKeyChainStore (2.0.6)
   - XLPagerTabStrip (2.0.0)
 
@@ -64,6 +65,7 @@ DEPENDENCIES:
   - PKYStepper (= 0.0.1)
   - SDWebImage (~> 3.7)
   - SKKeyboardResigner
+  - TOCropViewController
   - UICKeyChainStore
   - XLPagerTabStrip
 
@@ -86,6 +88,7 @@ SPEC CHECKSUMS:
   PKYStepper: 8dacefbddf9fa2b6aaec2ef828b46a78daa2db7d
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SKKeyboardResigner: 552cd41d13b79d83ccde6c19bf7e25e3b7bf58ff
+  TOCropViewController: aef6fe14b8221fa2629047054f2e9d89f6a57c39
   UICKeyChainStore: c5719c814e8bd69e74e4a0fc09daf8f4d6257a59
   XLPagerTabStrip: 2c69b8e3208432a94e713c198ce597faad5a87bb
 

@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		F7A554CEE1B573721090DFB0 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D1B41DAF8F01F253E6E4E5 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FC1873221BB077E700AC2ECA /* IDCPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1873211BB077E700AC2ECA /* IDCPhoto.m */; };
+		FC1903531BC1C6D60062E24D /* CreateListingPagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1903521BC1C6D60062E24D /* CreateListingPagerViewController.m */; };
+		FC1903561BC1CA840062E24D /* CreaListingPagerContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1903551BC1CA840062E24D /* CreaListingPagerContainerViewController.m */; };
+		FC19035B1BC1CC930062E24D /* XLButtonBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1903581BC1CC930062E24D /* XLButtonBarView.m */; };
+		FC19035C1BC1CC930062E24D /* XLButtonBarViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FC19035A1BC1CC930062E24D /* XLButtonBarViewCell.m */; };
+		FC1903721BC2C13A0062E24D /* DKImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FC19036D1BC2C13A0062E24D /* DKImageCell.m */; };
+		FC1903741BC2C13A0062E24D /* DKImageBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1903711BC2C13A0062E24D /* DKImageBrowser.m */; };
+		FC19037F1BC4126F0062E24D /* ListingInformationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC19037E1BC4126F0062E24D /* ListingInformationTableViewController.m */; };
 		FC1A959A1BB6E91300567760 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1A95991BB6E91300567760 /* Message.m */; };
 		FC1A959F1BB6F1FD00567760 /* ParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1A959C1BB6F1FD00567760 /* ParallaxHeaderView.m */; };
 		FC1A95A01BB6F1FD00567760 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1A959E1BB6F1FD00567760 /* UIImage+ImageEffects.m */; };
@@ -53,6 +60,20 @@
 		90D1B41DAF8F01F253E6E4E5 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC1873201BB077E700AC2ECA /* IDCPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDCPhoto.h; sourceTree = "<group>"; };
 		FC1873211BB077E700AC2ECA /* IDCPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDCPhoto.m; sourceTree = "<group>"; };
+		FC1903511BC1C6D60062E24D /* CreateListingPagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateListingPagerViewController.h; sourceTree = "<group>"; };
+		FC1903521BC1C6D60062E24D /* CreateListingPagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateListingPagerViewController.m; sourceTree = "<group>"; };
+		FC1903541BC1CA840062E24D /* CreaListingPagerContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreaListingPagerContainerViewController.h; sourceTree = "<group>"; };
+		FC1903551BC1CA840062E24D /* CreaListingPagerContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreaListingPagerContainerViewController.m; sourceTree = "<group>"; };
+		FC1903571BC1CC930062E24D /* XLButtonBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLButtonBarView.h; sourceTree = "<group>"; };
+		FC1903581BC1CC930062E24D /* XLButtonBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLButtonBarView.m; sourceTree = "<group>"; };
+		FC1903591BC1CC930062E24D /* XLButtonBarViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLButtonBarViewCell.h; sourceTree = "<group>"; };
+		FC19035A1BC1CC930062E24D /* XLButtonBarViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLButtonBarViewCell.m; sourceTree = "<group>"; };
+		FC19036C1BC2C13A0062E24D /* DKImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKImageCell.h; sourceTree = "<group>"; };
+		FC19036D1BC2C13A0062E24D /* DKImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKImageCell.m; sourceTree = "<group>"; };
+		FC1903701BC2C13A0062E24D /* DKImageBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKImageBrowser.h; sourceTree = "<group>"; };
+		FC1903711BC2C13A0062E24D /* DKImageBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKImageBrowser.m; sourceTree = "<group>"; };
+		FC19037D1BC4126F0062E24D /* ListingInformationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingInformationTableViewController.h; sourceTree = "<group>"; };
+		FC19037E1BC4126F0062E24D /* ListingInformationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingInformationTableViewController.m; sourceTree = "<group>"; };
 		FC1A95981BB6E91300567760 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		FC1A95991BB6E91300567760 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		FC1A959B1BB6F1FD00567760 /* ParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallaxHeaderView.h; sourceTree = "<group>"; };
@@ -153,6 +174,41 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FC19035D1BC1D3AB0062E24D /* Create Listing */ = {
+			isa = PBXGroup;
+			children = (
+				FC19037D1BC4126F0062E24D /* ListingInformationTableViewController.h */,
+				FC19037E1BC4126F0062E24D /* ListingInformationTableViewController.m */,
+			);
+			name = "Create Listing";
+			sourceTree = "<group>";
+		};
+		FC1903751BC2C1420062E24D /* DKImage */ = {
+			isa = PBXGroup;
+			children = (
+				FC19036C1BC2C13A0062E24D /* DKImageCell.h */,
+				FC19036D1BC2C13A0062E24D /* DKImageCell.m */,
+				FC1903701BC2C13A0062E24D /* DKImageBrowser.h */,
+				FC1903711BC2C13A0062E24D /* DKImageBrowser.m */,
+			);
+			name = DKImage;
+			sourceTree = "<group>";
+		};
+		FC1903761BC2CE090062E24D /* XLBar */ = {
+			isa = PBXGroup;
+			children = (
+				FC1903511BC1C6D60062E24D /* CreateListingPagerViewController.h */,
+				FC1903521BC1C6D60062E24D /* CreateListingPagerViewController.m */,
+				FC1903541BC1CA840062E24D /* CreaListingPagerContainerViewController.h */,
+				FC1903551BC1CA840062E24D /* CreaListingPagerContainerViewController.m */,
+				FC1903571BC1CC930062E24D /* XLButtonBarView.h */,
+				FC1903581BC1CC930062E24D /* XLButtonBarView.m */,
+				FC1903591BC1CC930062E24D /* XLButtonBarViewCell.h */,
+				FC19035A1BC1CC930062E24D /* XLButtonBarViewCell.m */,
+			);
+			name = XLBar;
+			sourceTree = "<group>";
+		};
 		FC547A761BB0D73500433F9F /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +277,19 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
+		FC785ADB1BCC2E2E003170BC /* Listing View */ = {
+			isa = PBXGroup;
+			children = (
+				FC547A8F1BB1939000433F9F /* ListingPagerViewController.h */,
+				FC547A901BB1939000433F9F /* ListingPagerViewController.m */,
+				FC8D84561BA6261100DAD5B7 /* ListingViewController.h */,
+				FC8D84571BA6261100DAD5B7 /* ListingViewController.m */,
+				FC547A921BB1BF9400433F9F /* ContactVendorTableViewController.h */,
+				FC547A931BB1BF9400433F9F /* ContactVendorTableViewController.m */,
+			);
+			name = "Listing View";
+			sourceTree = "<group>";
+		};
 		FC8209861BA0FAC4008D3C1E = {
 			isa = PBXGroup;
 			children = (
@@ -277,6 +346,8 @@
 				FC1A959C1BB6F1FD00567760 /* ParallaxHeaderView.m */,
 				FC1A959D1BB6F1FD00567760 /* UIImage+ImageEffects.h */,
 				FC1A959E1BB6F1FD00567760 /* UIImage+ImageEffects.m */,
+				FC1903761BC2CE090062E24D /* XLBar */,
+				FC1903751BC2C1420062E24D /* DKImage */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -300,14 +371,10 @@
 				FC7307F21BB4303F00721AC6 /* SearchViewController.m */,
 				FC98D4CF1BA5B968003CA233 /* ListingsTableViewController.h */,
 				FC98D4D01BA5B968003CA233 /* ListingsTableViewController.m */,
-				FC547A8F1BB1939000433F9F /* ListingPagerViewController.h */,
-				FC547A901BB1939000433F9F /* ListingPagerViewController.m */,
-				FC8D84561BA6261100DAD5B7 /* ListingViewController.h */,
-				FC8D84571BA6261100DAD5B7 /* ListingViewController.m */,
-				FC547A921BB1BF9400433F9F /* ContactVendorTableViewController.h */,
-				FC547A931BB1BF9400433F9F /* ContactVendorTableViewController.m */,
+				FC785ADB1BCC2E2E003170BC /* Listing View */,
 				FC7BE8981BBCC09E0004DB99 /* MyListingsTableViewController.h */,
 				FC7BE8991BBCC09E0004DB99 /* MyListingsTableViewController.m */,
+				FC19035D1BC1D3AB0062E24D /* Create Listing */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -439,9 +506,12 @@
 				FC547A8A1BB0FAF900433F9F /* BMCOAPIManager.m in Sources */,
 				FC98D4D11BA5B968003CA233 /* ListingsTableViewController.m in Sources */,
 				FC1A959F1BB6F1FD00567760 /* ParallaxHeaderView.m in Sources */,
+				FC1903531BC1C6D60062E24D /* CreateListingPagerViewController.m in Sources */,
+				FC19037F1BC4126F0062E24D /* ListingInformationTableViewController.m in Sources */,
 				FC1A95A01BB6F1FD00567760 /* UIImage+ImageEffects.m in Sources */,
 				FC1A95A31BB744D100567760 /* Manufacturer.m in Sources */,
 				FC1A95AA1BB7537800567760 /* Reference.m in Sources */,
+				FC1903721BC2C13A0062E24D /* DKImageCell.m in Sources */,
 				FC547A8E1BB1034800433F9F /* BMCONoAUTHAPIManager.m in Sources */,
 				FC547A741BB0D72F00433F9F /* IDCAuthManager.m in Sources */,
 				FC6380301BBF02E800488F4A /* MyListingCell.m in Sources */,
@@ -449,10 +519,14 @@
 				FC547A9A1BB22ECC00433F9F /* City.m in Sources */,
 				FC6380391BC0661300488F4A /* LoginRegisterPagerViewController.m in Sources */,
 				FC8209A01BA0FAC5008D3C1E /* BuscoMoto.xcdatamodeld in Sources */,
+				FC1903741BC2C13A0062E24D /* DKImageBrowser.m in Sources */,
 				FC547A801BB0F18600433F9F /* IDCDate.m in Sources */,
 				FC547A9D1BB22F5C00433F9F /* ListingType.m in Sources */,
 				FC8209971BA0FAC5008D3C1E /* AppDelegate.m in Sources */,
+				FC1903561BC1CA840062E24D /* CreaListingPagerContainerViewController.m in Sources */,
+				FC19035B1BC1CC930062E24D /* XLButtonBarView.m in Sources */,
 				FC8209941BA0FAC5008D3C1E /* main.m in Sources */,
+				FC19035C1BC1CC930062E24D /* XLButtonBarViewCell.m in Sources */,
 				FC1A959A1BB6E91300567760 /* Message.m in Sources */,
 				FC98D4D41BA5C096003CA233 /* ListingCell.m in Sources */,
 				FC547A841BB0F49B00433F9F /* User.m in Sources */,

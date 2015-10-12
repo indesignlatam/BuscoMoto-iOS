@@ -23,4 +23,6 @@
 #import "UIColor+BuscoMoto.h"
 #import "NSString+Helpers.h"
 #import "IDCDate.h"
+#import "JDStatusBarNotification.h"
+
 #endif /* PrefixHeader_pch */

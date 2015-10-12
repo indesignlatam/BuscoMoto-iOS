@@ -18,5 +18,12 @@
 
 +(UIColor*)primaryColor;
 +(UIColor*)secondaryColor;
++(UIColor*)ternaryColor;
+
++(UIColor*)dangerColor;
++(UIColor*)successColor;
++(UIColor*)warningColor;
++(UIColor*)infoColor;
+
 
 @end

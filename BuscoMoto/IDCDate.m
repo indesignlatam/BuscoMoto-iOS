@@ -148,38 +148,26 @@
     }
 }
 
-+ (NSString*)getOpensOrClosesIn:(NSTimeInterval)timeint or:(NSTimeInterval)timeintDue{
-    if(timeint<0){// no ha abierto
-        if (timeint < -31104000){
-            return [NSString stringWithFormat:NSLocalizedString(@"OPENS_IN_YEARS", @"Abre en (%dY)"), (int)((timeint/-31104000)+0.5)];
-        }else if (timeint < -2592000){
-            return [NSString stringWithFormat:NSLocalizedString(@"OPENS_IN_MONTHS", @"Abre en (%dM)"), (int)((timeint/-2592000)+0.5)];
-        }else if (timeint < -86400){
-            return [NSString stringWithFormat:NSLocalizedString(@"OPENS_IN_DAYS", @"Abre en (%dd)"), (int)((timeint/-86400)+0.5)];
-        }else if (timeint < -3600){
-            return [NSString stringWithFormat:NSLocalizedString(@"OPENS_IN_HOURS", @"Abre en (%dh)"), (int)((timeint/-3600)+0.5)];
-        }else if(timeint < -60){
-            return [NSString stringWithFormat:NSLocalizedString(@"OPENS_IN_MINUTES", @"Abre en (%dm)"), (int)((timeint/-60)+0.5)];
++ (NSString*)getExpiresIn:(NSDate*)date{
+    NSTimeInterval timeint = [date timeIntervalSinceNow];
+    
+    if(timeint > 0){
+        timeint = timeint;
+        if(timeint < 60){
+            return [NSString stringWithFormat:@"Expira en %d segundos", (int)timeint];
+        }else if(timeint < 3600){
+            return [NSString stringWithFormat:@"Expira en %d minutos", (int)((timeint/60)+0.5)];
+        }else if(timeint < 86400){
+            return [NSString stringWithFormat:@"Expira en %d horas", (int)((timeint/3600)+0.5)];
+        }else if(timeint < 2592000){
+            return [NSString stringWithFormat:@"Expira en %d días", (int)((timeint/86400)+0.5)];
+        }else if(timeint < 31104000){
+            return [NSString stringWithFormat:@"Expira en %d meses", (int)((timeint/2592000)+0.5)];
         }else{
-            return NSLocalizedString(@"OPEN", @"Abierto");
+            return [NSString stringWithFormat:@"Expira en %d años", (int)((timeint/31104000)+0.5)];
         }
-    }else{// ya abrio
-        timeint = timeintDue;
-        if (timeint < -31104000){
-            return [NSString stringWithFormat:NSLocalizedString(@"CLOSES_IN_YEARS", @"Cierra en (%dY)"), (int)((timeint/-31104000)+0.5)];
-        }else if (timeint < -2592000){
-            return [NSString stringWithFormat:NSLocalizedString(@"CLOSES_IN_MONTHS", @"Cierra en (%dM)"), (int)((timeint/-2592000)+0.5)];
-        }else if (timeint < -86400){
-            return [NSString stringWithFormat:NSLocalizedString(@"CLOSES_IN_DAYS", @"Cierra en (%dd)"), (int)((timeint/-86400)+0.5)];
-        }else if (timeint < -3600){
-            return [NSString stringWithFormat:NSLocalizedString(@"CLOSES_IN_HOURS", @"Cierra en (%dh)"), (int)((timeint/-3600)+0.5)];
-        }else if(timeint < -60){
-            return [NSString stringWithFormat:NSLocalizedString(@"CLOSES_IN_MINUTES", @"Cierra en (%dm)"), (int)((timeint/-60)+0.5)];
-        }else if(timeint < 0){
-            return [NSString stringWithFormat:NSLocalizedString(@"CLOSES_IN_SECONDS", @"Cierra en (%ds)"), (int)timeint];
-        }else{
-            return NSLocalizedString(@"CLOSED", @"Cerrado");
-        }
+    }else{
+        return @"Expirado";
     }
 }
 

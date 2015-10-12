@@ -58,10 +58,25 @@
 }
 // APP Colors
 +(UIColor*)primaryColor{
-    return [UIColor colorWithRed:28.0/255.0 green:123.0/255.0 blue:186.0/255.0 alpha:1];
+    return [UIColor colorWithHexString:@"1C7BBA"];
 }
 +(UIColor*)secondaryColor{
-    return [UIColor colorWithRed:62.0f/255.0f green:71.0f/255.0f blue:41.0f/255.0f alpha:1.0];
+    return [UIColor colorWithHexString:@"00a99d"];
+}
++(UIColor*)ternaryColor{
+    return [UIColor colorWithHexString:@"FF2D55"];
 }
 
++(UIColor*)successColor{
+    return [UIColor colorWithHexString:@"00a26a"];
+}
++(UIColor*)warningColor{
+    return [UIColor colorWithHexString:@"f7af00"];
+}
++(UIColor*)dangerColor{
+    return [UIColor colorWithHexString:@"ff3b30"];
+}
++(UIColor*)infoColor{
+    return [UIColor colorWithHexString:@"eeeeee"];
+}
 @end

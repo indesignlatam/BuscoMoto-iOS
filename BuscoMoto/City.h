@@ -6,13 +6,11 @@
 //  Copyright © 2015 Indesign Colombia. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <EasyMapping/EasyMapping.h>
 
-#import "EKMappingProtocol.h"
+@interface City : EKManagedObjectModel
 
-@interface City : NSObject <EKMappingProtocol>
-
-@property (nonatomic, retain) NSNumber *objectID;
+@property (nonatomic, retain) NSNumber *cityID;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSNumber *ordering;
 

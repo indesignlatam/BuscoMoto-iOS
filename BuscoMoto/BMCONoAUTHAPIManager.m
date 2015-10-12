@@ -116,9 +116,18 @@ static NSString * const connectionManagerBaseURL = @"http://local.buscomoto.co/a
             if([responseObject isKindOfClass:[NSDictionary class]] ){
                 NSDictionary *jsonData = [responseObject objectForKey:@"data"];
                 if(jsonData){
+                    // Save models and manufacturers to core data
                     NSArray *array = [jsonData objectForKey:@"models"];
                     NSArray *objects = [EKManagedObjectMapper arrayOfObjectsFromExternalRepresentation:array withMapping:[Reference objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
                     [data setObject:objects forKey:@"models"];
+                    
+                    // Save cities to core data
+                    array = [jsonData objectForKey:@"cities"];
+                    objects = [EKManagedObjectMapper arrayOfObjectsFromExternalRepresentation:array withMapping:[City objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                    
+                    // Save cities to core data
+                    array = [jsonData objectForKey:@"features"];
+                    objects = [EKManagedObjectMapper arrayOfObjectsFromExternalRepresentation:array withMapping:[Feature objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
                 }
             }
             completionBlock(data, nil);

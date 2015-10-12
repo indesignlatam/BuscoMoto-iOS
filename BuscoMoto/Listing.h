@@ -40,8 +40,7 @@
 @property (nonatomic, retain) NSDate *expiresAt;
 @property (nonatomic, retain) NSDate *updatedAt;
 
-//@property (nonatomic, retain) ListingType *listingType;
-//@property (nonatomic, retain) City *city;
+
 @property (nonatomic, retain) NSArray *images;
 @property (nonatomic, retain) NSArray *features;
 @property (nonatomic, retain) User *user;

@@ -11,7 +11,7 @@
 #import "LoginRegisterPagerViewController.h"
 
 #import "Listing.h"
-#import "MyListingCell.h"
+
 
 @interface MyListingsTableViewController ()
 
@@ -23,15 +23,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    UIBarButtonItem *button = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newListing:)];
-    [self.navigationItem setRightBarButtonItem:button animated:YES];
-    
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
     
     // A little trick for removing the cell separators
     self.tableView.tableFooterView = [UIView new];
+    
+    //Pulldown to refresh table view data
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl setTintColor:[UIColor primaryColor]];
+    [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -114,7 +115,75 @@
     
     [cell.listingTitle setText:listing.title];
     [cell.listingsViews setText:[NSString stringWithFormat:@"%@ visitas", [numberFormatter stringFromNumber:listing.views]]];
+    [cell.listingExpiresAt setText:[IDCDate getExpiresIn:listing.expiresAt]];
     
+    // Set swipe actions
+    UIImageView *checkView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"checkmark"]];
+    UIImageView *crossView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cross"]];
+    
+    [cell setDelegate:self];
+    
+    // Setting the default inactive state color to the tableView background color
+    [cell setDefaultColor:[UIColor lightGrayColor]];
+    
+    // Icon should move with swipe ?
+    cell.shouldAnimateIcons = YES;
+    
+    __weak MyListingsTableViewController *weakSelf = self;
+    MCSwipeTableViewCellState state = MCSwipeTableViewCellState1;
+    
+    if([listing.expiresAt timeIntervalSinceNow] < (86400*5)){
+        [cell.listingExpiresAt setTextColor:[UIColor redColor]];
+        
+        state = MCSwipeTableViewCellState2;
+        [cell setSwipeGestureWithView:checkView color:[UIColor primaryColor] mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState1 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+            __strong MyListingsTableViewController *strongSelf = weakSelf;
+            [strongSelf setSelectedCell:(MyListingCell*)cell];
+            
+            // RENOVATE LISTING
+            [[BMCOAPIManager sharedInstance]POSTRenovateListingWithID:_selectedCell.listing.objectID onCompletion:^(Listing *listing, NSError *error){
+                if(!error){
+                    [_listings setObject:listing atIndexedSubscript:[strongSelf.tableView indexPathForCell:_selectedCell].row];
+                    [self.tableView reloadRowsAtIndexPaths:@[[strongSelf.tableView indexPathForCell:_selectedCell]] withRowAnimation:UITableViewRowAnimationFade];
+                    [JDStatusBarNotification showWithStatus:@"Publicación renovada por 30 días más" styleName:JDStatusBarStyleDefault];
+                    [JDStatusBarNotification dismissAfter:4];
+                }else{
+                    [JDStatusBarNotification showWithStatus:@"Error al renovar la publicación" styleName:JDStatusBarStyleError];
+                    [JDStatusBarNotification dismissAfter:3];
+                }
+            }];
+        }];
+    }else{
+        [cell.listingExpiresAt setTextColor:[UIColor blackColor]];
+    }
+    
+    [cell setSwipeGestureWithView:crossView color:[UIColor yellowColor] mode:MCSwipeTableViewCellModeExit state:state completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+        __strong MyListingsTableViewController *strongSelf = weakSelf;
+        [strongSelf setSelectedCell:(MyListingCell*)cell];
+        // DO ACTION
+        NSLog(@"SWIPE SOLD");
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"¿Ya vendiste esta moto?"
+                                                            message:@"Si confirmas esta acción, la publicación sera marcada como vendida y no se mostrara más al publico."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"No"
+                                                  otherButtonTitles:@"Si", nil];
+        [alertView setTag:2];
+        [alertView show];
+    }];
+    
+    [cell setSwipeGestureWithView:crossView color:[UIColor redColor] mode:MCSwipeTableViewCellModeExit state:MCSwipeTableViewCellState3 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
+        __strong MyListingsTableViewController *strongSelf = weakSelf;
+        [strongSelf setSelectedCell:(MyListingCell*)cell];
+        // DO ACTION
+        NSLog(@"SWIPE DELETE");
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"¿Deseas eliminar esta publicación?"
+                                                            message:@"Esta acción sera permanente y no podras recuperar la publicación."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"No"
+                                                  otherButtonTitles:@"Si", nil];
+        [alertView setTag:1];
+        [alertView show];
+    }];
     
     return cell;
 }
@@ -198,6 +267,43 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoginRegisterPagerViewController *loginView = [storyboard instantiateViewControllerWithIdentifier:@"loginRegisterPager"];
     [self.navigationController presentViewController:loginView animated:YES completion:nil];
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        [_selectedCell swipeToOriginWithCompletion:^{
+            NSLog(@"Swiped back");
+        }];
+        _selectedCell = nil;
+    }else{
+        if(alertView.tag == 1){
+            // RENOVATE LISTING
+            [[BMCOAPIManager sharedInstance]DELETEListingWithID:_selectedCell.listing.objectID onCompletion:^(BOOL success, NSError *error){
+                if(!error && success){
+                    [_listings removeObjectAtIndex:[self.tableView indexPathForCell:_selectedCell].row];
+                    [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:_selectedCell]] withRowAnimation:UITableViewRowAnimationTop];
+                    [JDStatusBarNotification showWithStatus:@"Publicación eliminada" styleName:JDStatusBarStyleDefault];
+                    [JDStatusBarNotification dismissAfter:4];
+                    
+                    _selectedCell = nil;
+                }else{
+                    [_selectedCell swipeToOriginWithCompletion:^{
+                        NSLog(@"Swiped back");
+                    }];
+                    _selectedCell = nil;
+                    
+                    [JDStatusBarNotification showWithStatus:@"Error al eliminar la publicación" styleName:JDStatusBarStyleError];
+                    [JDStatusBarNotification dismissAfter:3];
+                }
+            }];
+        }else if(alertView.tag == 2){
+            // Code to renew listing on cell
+            NSLog(@"RENEW LISTING: %@", _selectedCell.listing.title);
+            
+            _selectedCell = nil;
+        }
+    }
 }
 
 /*

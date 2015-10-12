@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8BDC162A389577F86AAA20CF"
+               BlueprintIdentifier = "D34EE39D2F2D5C3952992195"
                BuildableName = "JDStatusBarNotification.framework"
                BlueprintName = "JDStatusBarNotification"
                ReferencedContainer = "container:Pods.xcodeproj">
