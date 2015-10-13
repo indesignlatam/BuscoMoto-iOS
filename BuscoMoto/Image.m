@@ -10,13 +10,18 @@
 
 @implementation Image
 
-+(EKObjectMapping *)objectMapping{
+@dynamic imageID;
+@dynamic imageURL;
+@dynamic ordering;
+
++(EKManagedObjectMapping *)objectMapping{
     //
-    return [EKObjectMapping mappingForClass:self withBlock:^(EKObjectMapping *mapping) {
-        [mapping mapPropertiesFromDictionary:@{@"id"                : @"objectID",
+    return [EKManagedObjectMapping mappingForEntityName:NSStringFromClass([self class]) withBlock:^(EKManagedObjectMapping *mapping) {
+        [mapping mapPropertiesFromDictionary:@{@"id"                : @"imageID",
                                                @"image_url"         : @"imageURL",
                                                @"ordering"          : @"ordering",
                                                }];
+        mapping.primaryKey = @"imageID";
     }];
 }
 

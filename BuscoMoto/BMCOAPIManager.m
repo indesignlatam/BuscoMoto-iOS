@@ -8,7 +8,6 @@
 
 #import "BMCOAPIManager.h"
 
-#import "EKMapper.h"
 #import "IDCAuthManager.h"
 #import "IDCAuthOp.h"
 
@@ -48,7 +47,7 @@
                             NSDictionary *jsonData = [op.responseObject objectForKey:@"data"];
                             NSLog(@"%@", op.responseObject);
                             if(jsonData){
-                                User *user = [EKMapper objectFromExternalRepresentation:jsonData withMapping:[User objectMapping]];
+                                User *user = [EKManagedObjectMapper objectFromExternalRepresentation:jsonData withMapping:[User objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
                                 completionBlock(user, nil);
                             }
                         }

@@ -23,6 +23,7 @@
                                                @"slug"              : @"slug",
                                                @"category_id"       : @"categoryID",
                                                }];
+        mapping.primaryKey = @"featureID";
     }];
 }
 

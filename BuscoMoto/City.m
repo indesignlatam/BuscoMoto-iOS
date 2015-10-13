@@ -21,6 +21,7 @@
                                                @"name"              : @"name",
                                                @"ordering"          : @"ordering",
                                                }];
+        mapping.primaryKey = @"cityID";
     }];
 }
 

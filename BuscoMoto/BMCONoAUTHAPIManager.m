@@ -9,10 +9,10 @@
 #import "BMCONoAUTHAPIManager.h"
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
-#import "EKMapper.h"
 #import "Listing.h"
 #import "Message.h"
 #import "Reference.h"
+#import "Feature.h"
 
 static NSString * const connectionManagerBaseURL = @"http://local.buscomoto.co/api/v2";
 //static NSString * const connectionManagerBaseURL = @"http://dev.buscomoto.co/api/v2";
@@ -61,9 +61,7 @@ static NSString * const connectionManagerBaseURL = @"http://local.buscomoto.co/a
 }
 
 - (void)GETListingsWithParams:(NSDictionary *) params onCompletion:(GetPaginatorCompletitionBlock)completionBlock{
-    NSString *path = [NSString stringWithFormat:@"listings"];
-    NSLog(@"PARAMS:: %@", params);
-    [self GET:path parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self GET:@"listings" parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         @try {
             NSArray *objects = @[];
             NSMutableDictionary *paginator = [[NSMutableDictionary alloc]init];
@@ -71,8 +69,7 @@ static NSString * const connectionManagerBaseURL = @"http://local.buscomoto.co/a
                 paginator = [responseObject mutableCopy];
                 NSArray *jsonData = [responseObject objectForKey:@"data"];
                 if(jsonData){
-                    objects = [EKMapper arrayOfObjectsFromExternalRepresentation:jsonData
-                                                                     withMapping:[Listing objectMapping]];
+                    objects = [EKManagedObjectMapper arrayOfObjectsFromExternalRepresentation:jsonData withMapping:[Listing objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
                 }
             }
             
@@ -125,7 +122,7 @@ static NSString * const connectionManagerBaseURL = @"http://local.buscomoto.co/a
                     array = [jsonData objectForKey:@"cities"];
                     objects = [EKManagedObjectMapper arrayOfObjectsFromExternalRepresentation:array withMapping:[City objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
                     
-                    // Save cities to core data
+                    // Save features to core data
                     array = [jsonData objectForKey:@"features"];
                     objects = [EKManagedObjectMapper arrayOfObjectsFromExternalRepresentation:array withMapping:[Feature objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
                 }

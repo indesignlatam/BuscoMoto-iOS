@@ -7,14 +7,41 @@
 //
 
 #import "Listing.h"
+#import "Image.h"
 
 #import "IDCDate.h"
 
 @implementation Listing
 
-+(EKObjectMapping *)objectMapping{
+@dynamic listingID;
+@dynamic title;
+@dynamic slug;
+@dynamic district;
+@dynamic color;
+@dynamic price;
+@dynamic year;
+@dynamic odometer;
+@dynamic views;
+@dynamic points;
+@dynamic descriptionText;
+@dynamic licenseNumber;
+@dynamic imageURL;
+@dynamic engineSize;
+@dynamic featuredExpiresAt;
+@dynamic expiresAt;
+@dynamic updatedAt;
+@dynamic user;
+@dynamic city;
+@dynamic type;
+@dynamic images;
+@dynamic features;
+@dynamic liked;
+@dynamic contacted;
+
+
++(EKManagedObjectMapping *)objectMapping{
     //
-    return [EKObjectMapping mappingForClass:self withBlock:^(EKObjectMapping *mapping) {
+    return [EKManagedObjectMapping mappingForEntityName:NSStringFromClass([Listing class]) withBlock:^(EKManagedObjectMapping *mapping) {
         [mapping mapPropertiesFromArray:@[@"title",
                                           @"slug",
                                           @"district",
@@ -26,7 +53,7 @@
                                           @"points",
                                           ]];
         
-        [mapping mapPropertiesFromDictionary:@{@"id"                : @"objectID",
+        [mapping mapPropertiesFromDictionary:@{@"id"                : @"listingID",
                                                @"description"       : @"descriptionText",
                                                @"license_number"    : @"licenseNumber",
                                                @"image_url"         : @"imageURL",
@@ -42,8 +69,10 @@
         [mapping hasOne:[User class] forKeyPath:@"user"];
         [mapping hasOne:[City class] forKeyPath:@"city"];
         [mapping hasOne:[ListingType class] forKeyPath:@"listing_type" forProperty:@"type"];
-        [mapping hasMany:[Image class] forKeyPath:@"images"];
-        [mapping hasMany:[Feature class] forKeyPath:@"features"];
+        [mapping hasMany:Image.class forKeyPath:@"images"];
+//        [mapping hasMany:[Feature class] forKeyPath:@"features"];
+        
+        mapping.primaryKey = @"listingID";
     }];
 }
 

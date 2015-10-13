@@ -14,6 +14,8 @@
 #import "LoginRegisterPagerViewController.h"
 
 #import "IDCPhoto.h"
+#import "Feature.h"
+#import "Image.h"
 
 @implementation ListingViewController
 
@@ -379,7 +381,7 @@
 //        [sender.imageView setTintColor:[UIColor redColor]];
 //    }
     
-    [[BMCOAPIManager sharedInstance] POSTLikeWithParams:_listing.objectID onCompletion:^(BOOL liked, NSError *error){
+    [[BMCOAPIManager sharedInstance] POSTLikeWithParams:_listing.listingID onCompletion:^(BOOL liked, NSError *error){
         if(!error){
             if(liked){
                 [sender.imageView setTintColor:[UIColor redColor]];

@@ -6,19 +6,18 @@
 //  Copyright © 2015 Indesign Colombia. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "EKMappingProtocol.h"
+#import <EasyMapping/EasyMapping.h>
 
-@interface User : NSObject <EKMappingProtocol>
+@interface User : EKManagedObjectModel
 
-@property (nonatomic, retain) NSNumber *objectID;
+@property (nonatomic, retain) NSNumber *userID;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *username;
 @property (nonatomic, retain) NSString *email;
 @property (nonatomic, retain) NSString *phone1;
 @property (nonatomic, retain) NSString *phone2;
 @property (nonatomic, retain) NSString *descriptionText;
-@property (nonatomic, retain) NSString *imagePath;
+@property (nonatomic, retain) NSString *imageURL;
 
 @property BOOL emailNotifications;
 @property BOOL privacyName;

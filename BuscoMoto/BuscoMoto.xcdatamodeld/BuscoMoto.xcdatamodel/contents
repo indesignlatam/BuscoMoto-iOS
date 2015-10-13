@@ -26,6 +26,7 @@
         <attribute name="district" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="engineSize" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="expiresAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="featuredExpiresAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="imageURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="licenseNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -41,14 +42,14 @@
         <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="listings" inverseEntity="City" syncable="YES"/>
         <relationship name="features" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Feature" inverseName="listings" inverseEntity="Feature" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Image" inverseName="listing" inverseEntity="Image" syncable="YES"/>
-        <relationship name="listingType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ListingType" inverseName="listings" inverseEntity="ListingType" syncable="YES"/>
+        <relationship name="type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ListingType" inverseName="listings" inverseEntity="ListingType" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="listings" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="ListingType" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="slug" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="typeID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="listings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Listing" inverseName="listingType" inverseEntity="Listing" syncable="YES"/>
+        <relationship name="listings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Listing" inverseName="type" inverseEntity="Listing" syncable="YES"/>
     </entity>
     <entity name="Manufacturer" representedClassName="" syncable="YES">
         <attribute name="imageURL" optional="YES" attributeType="String" syncable="YES"/>
@@ -83,11 +84,11 @@
     <elements>
         <element name="City" positionX="9" positionY="36" width="128" height="105"/>
         <element name="Feature" positionX="18" positionY="54" width="128" height="120"/>
+        <element name="Image" positionX="45" positionY="180" width="128" height="105"/>
+        <element name="Listing" positionX="9" positionY="54" width="128" height="405"/>
+        <element name="ListingType" positionX="36" positionY="171" width="128" height="105"/>
         <element name="Manufacturer" positionX="0" positionY="0" width="128" height="135"/>
         <element name="Reference" positionX="0" positionY="0" width="128" height="105"/>
-        <element name="Listing" positionX="9" positionY="54" width="128" height="390"/>
         <element name="User" positionX="27" positionY="162" width="128" height="255"/>
-        <element name="ListingType" positionX="36" positionY="171" width="128" height="105"/>
-        <element name="Image" positionX="45" positionY="180" width="128" height="105"/>
     </elements>
 </model>

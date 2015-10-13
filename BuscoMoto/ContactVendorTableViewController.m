@@ -48,7 +48,7 @@
     [headerView.headerTitleLabel setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.4]];
     
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    [manager downloadImageWithURL:[NSURL URLWithString:_listing.user.imagePath]
+    [manager downloadImageWithURL:[NSURL URLWithString:_listing.user.imageURL]
                           options:0
                          progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                              // progression tracking code

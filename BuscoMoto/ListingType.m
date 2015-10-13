@@ -10,13 +10,18 @@
 
 @implementation ListingType
 
-+(EKObjectMapping *)objectMapping{
+@dynamic typeID;
+@dynamic name;
+@dynamic slug;
+
++(EKManagedObjectMapping *)objectMapping{
     //
-    return [EKObjectMapping mappingForClass:self withBlock:^(EKObjectMapping *mapping) {
-        [mapping mapPropertiesFromDictionary:@{@"id"                : @"objectID",
+    return [EKManagedObjectMapping mappingForEntityName:NSStringFromClass([self class]) withBlock:^(EKManagedObjectMapping *mapping) {
+        [mapping mapPropertiesFromDictionary:@{@"id"                : @"typeID",
                                                @"name"              : @"name",
                                                @"slug"              : @"slug",
                                                }];
+        mapping.primaryKey = @"typeID";
     }];
 }
 

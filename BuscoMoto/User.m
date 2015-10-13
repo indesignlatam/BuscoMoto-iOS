@@ -13,20 +13,36 @@
 
 @implementation User
 
-+(EKObjectMapping *)objectMapping{
+@dynamic name;
+@dynamic username;
+@dynamic email;
+@dynamic confirmed;
+@dynamic userID;
+@dynamic descriptionText;
+@dynamic phone1;
+@dynamic phone2;
+@dynamic imageURL;
+@dynamic emailNotifications;
+@dynamic privacyName;
+@dynamic privacyPhone;
+@dynamic updatedAt;
+
+
+
++(EKManagedObjectMapping *)objectMapping{
     //
-    return [EKObjectMapping mappingForClass:self withBlock:^(EKObjectMapping *mapping) {
+    return [EKManagedObjectMapping mappingForEntityName:NSStringFromClass([self class]) withBlock:^(EKManagedObjectMapping *mapping) {
         [mapping mapPropertiesFromArray:@[@"name",
                                           @"username",
                                           @"email",
                                           @"confirmed",
                                           ]];
         
-        [mapping mapPropertiesFromDictionary:@{@"id"                : @"objectID",
+        [mapping mapPropertiesFromDictionary:@{@"id"                : @"userID",
                                                @"description"       : @"descriptionText",
                                                @"phone_1"           : @"phone1",
                                                @"phone_2"           : @"phone2",
-                                               @"image_url"        : @"imagePath",
+                                               @"image_url"         : @"imageURL",
                                                @"email_notifications": @"emailNotifications",
                                                @"privacy_name"      : @"privacyName",
                                                @"privacy_phone"     : @"privacyPhone",
@@ -37,6 +53,8 @@
         
         // Relationships
         //[mapping hasMany:[Listing class] forKeyPath:@"listings"];
+        
+        mapping.primaryKey = @"userID";
     }];
 }
 

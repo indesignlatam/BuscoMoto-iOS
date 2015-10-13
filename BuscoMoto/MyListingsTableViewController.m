@@ -141,7 +141,7 @@
             [strongSelf setSelectedCell:(MyListingCell*)cell];
             
             // RENOVATE LISTING
-            [[BMCOAPIManager sharedInstance]POSTRenovateListingWithID:_selectedCell.listing.objectID onCompletion:^(Listing *listing, NSError *error){
+            [[BMCOAPIManager sharedInstance]POSTRenovateListingWithID:_selectedCell.listing.listingID onCompletion:^(Listing *listing, NSError *error){
                 if(!error){
                     [_listings setObject:listing atIndexedSubscript:[strongSelf.tableView indexPathForCell:_selectedCell].row];
                     [self.tableView reloadRowsAtIndexPaths:@[[strongSelf.tableView indexPathForCell:_selectedCell]] withRowAnimation:UITableViewRowAnimationFade];
@@ -279,7 +279,7 @@
     }else{
         if(alertView.tag == 1){
             // RENOVATE LISTING
-            [[BMCOAPIManager sharedInstance]DELETEListingWithID:_selectedCell.listing.objectID onCompletion:^(BOOL success, NSError *error){
+            [[BMCOAPIManager sharedInstance]DELETEListingWithID:_selectedCell.listing.listingID onCompletion:^(BOOL success, NSError *error){
                 if(!error && success){
                     [_listings removeObjectAtIndex:[self.tableView indexPathForCell:_selectedCell].row];
                     [self.tableView deleteRowsAtIndexPaths:@[[self.tableView indexPathForCell:_selectedCell]] withRowAnimation:UITableViewRowAnimationTop];
