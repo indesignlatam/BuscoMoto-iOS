@@ -1,8 +1,8 @@
 //
-//  ListingInformationTableViewController.h
+//  EditListingTableViewController.h
 //  BuscoMoto
 //
-//  Created by Paulo Mogollon on 10/6/15.
+//  Created by Paulo Mogollon on 10/14/15.
 //  Copyright © 2015 Indesign Colombia. All rights reserved.
 //
 
@@ -14,8 +14,11 @@
 #import "Reference.h"
 #import "City.h"
 #import "Feature.h"
+#import "Listing.h"
 
-@interface ListingInformationTableViewController : UITableViewController <CZPickerViewDataSource, CZPickerViewDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, TOCropViewControllerDelegate>
+@interface EditListingTableViewController : UITableViewController <CZPickerViewDataSource, CZPickerViewDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, TOCropViewControllerDelegate>
+
+@property (nonatomic, retain) Listing *listing;
 
 @property (nonatomic, retain) NSMutableArray *images;
 @property (nonatomic, retain) NSNumber *uploadedImages;
@@ -40,6 +43,7 @@
 @property (strong, nonatomic) IBOutlet UITableViewCell *cellManufacturer;
 @property (strong, nonatomic) IBOutlet UITableViewCell *cellModel;
 @property (strong, nonatomic) IBOutlet UITableViewCell *cellCity;
+@property (strong, nonatomic) IBOutlet UITableViewCell *cellDistrict;
 @property (strong, nonatomic) IBOutlet UITableViewCell *cellPrice;
 @property (strong, nonatomic) IBOutlet UITableViewCell *cellOdometer;
 @property (strong, nonatomic) IBOutlet UITableViewCell *cellLicense;
@@ -48,5 +52,5 @@
 @property (strong, nonatomic) IBOutlet UITableViewCell *cellAditionals;
 @property (strong, nonatomic) IBOutlet UITableViewCell *cellYear;
 @property (strong, nonatomic) IBOutlet UIPlaceHolderTextView *textAreaDescription;
-@property (strong, nonatomic) IBOutlet UITableViewCell *cellNext;
+
 @end

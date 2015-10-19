@@ -14,7 +14,7 @@
 #import "Reference.h"
 #import "Feature.h"
 
-static NSString * const connectionManagerBaseURL = @"http://local.buscomoto.co/api/v2";
+static NSString * const connectionManagerBaseURL = @"http://lapi.buscomoto.co/v2";
 //static NSString * const connectionManagerBaseURL = @"http://dev.buscomoto.co/api/v2";
 
 @implementation BMCONoAUTHAPIManager

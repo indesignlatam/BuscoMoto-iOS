@@ -74,12 +74,12 @@ static NSString * const K_KEYCHAIN_STORE = @"com.IDC.BMCO";
     
     [[IDCAuthManager sharedInstance] authorizeUser:_loginUsername.text password:_loginPassword.text onSuccess:^(AFOAuthCredential *credential) {
         [KVNProgress showProgress:0.3f status:@"Sesión Iniciada"];
-        NSLog(@"User logged in and tokens saved");
+        NSLog(@"User logged in");
         
         [[BMCOAPIManager sharedInstance] GETUserWithEmail:_loginUsername.text onCompletion:^(User *user, NSError *error){
             [KVNProgress showProgress:0.5f status:@"Cargando datos de usuario"];
             //
-            if([user isKindOfClass:[User class]]){
+            if([user isKindOfClass:[NSManagedObject class]] && user.userID){
                 NSLog(@"User retrived");
                 [KVNProgress showProgress:0.8f status:@"Cargando datos de usuario"];
                 // Save the app username and password to keychain
@@ -90,7 +90,7 @@ static NSString * const K_KEYCHAIN_STORE = @"com.IDC.BMCO";
                     [self dismissViewControllerAnimated:YES completion:nil];
                 }];
             }else{
-                NSLog(@"User is not a user model");
+                NSLog(@"User is not a user model: %@", user.class);
                 [KVNProgress showErrorWithStatus:@"Error al cargar datos de usuario"];
             }
         }];

@@ -9,6 +9,8 @@
 #import "MyListingsTableViewController.h"
 #import "AppDelegate.h"
 #import "LoginRegisterPagerViewController.h"
+#import "ListingInformationTableViewController.h"
+#import "EditListingTableViewController.h"
 
 #import "Listing.h"
 
@@ -36,12 +38,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    [self.tableView reloadData];
-    
-    if(_listings.count == 0 && [[IDCAuthManager sharedInstance] isAuthorized]){
-        [self refresh:nil];
-    }
-    
+    [self refresh:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,6 +64,9 @@
 
         [[BMCOAPIManager sharedInstance] GETListings:^(NSArray *data, NSError *error) {
             if (!error){
+                NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"updatedAt" ascending:NO];
+                data = [data sortedArrayUsingDescriptors:@[sortDescriptor]];
+                
                 _listings = [data mutableCopy];
                 _loading = false;
                 [self.refreshControl endRefreshing];
@@ -76,11 +76,6 @@
             }
         }];
     }
-}
-
-
-- (void)newListing:(id)sender{
-    NSLog(@"CREATE NEW LISTING");
 }
 
 #pragma mark - Table view data source
@@ -106,7 +101,7 @@
     
     Listing *listing = [_listings objectAtIndex:indexPath.row];
     cell.listing = listing;
-    
+
     UIImage *placeholder = [UIImage imageNamed:@"listing_image"];
     [cell.listingImage sd_setImageWithURL:[NSURL URLWithString:listing.imageURL] placeholderImage:placeholder];
     
@@ -227,12 +222,12 @@
 }
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView{
-    NSString *text = @"Debes estar registrado";
+    NSString *text = @"";
     
     if(![[IDCAuthManager sharedInstance] isAuthorized]){
         text = @"Debes estar registrado";
     }else if(_listings.count == 0){
-        text = @"No tienes ";
+        text = @"¿Estas vendiendo tu moto?";
     }
     
     
@@ -243,7 +238,13 @@
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView{
-    NSString *text = @"Para publicar tu moto o ver tus publicaciones.";
+    NSString *text = @"";
+    
+    if(![[IDCAuthManager sharedInstance] isAuthorized]){
+        text = @"Para publicar tu moto o ver tus publicaciones.";
+    }else if(_listings.count == 0){
+        text = @"Puedes publicarla totalmente gratis";
+    }
     
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;
@@ -257,16 +258,29 @@
 }
 
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state{
+    NSString *text = @"";
+    
+    if(![[IDCAuthManager sharedInstance] isAuthorized]){
+        text = @"Inicia sesión o crea una cuenta";
+    }else if(_listings.count == 0){
+        text = @"¡Publica tu moto!";
+    }
+    
     NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:17.0f]};
     
-    return [[NSAttributedString alloc] initWithString:@"Inicia sesión o crea una cuenta" attributes:attributes];
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView{
     // Do something
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    LoginRegisterPagerViewController *loginView = [storyboard instantiateViewControllerWithIdentifier:@"loginRegisterPager"];
-    [self.navigationController presentViewController:loginView animated:YES completion:nil];
+    if(![[IDCAuthManager sharedInstance] isAuthorized]){
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        LoginRegisterPagerViewController *loginView = [storyboard instantiateViewControllerWithIdentifier:@"loginRegisterPager"];
+        [self.navigationController presentViewController:loginView animated:YES completion:nil];
+    }else if(_listings.count == 0){
+        ListingInformationTableViewController *view = [self.storyboard instantiateViewControllerWithIdentifier:@"listingInfoView"];
+        [self.navigationController presentViewController:view animated:YES completion:nil];
+    }
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -306,14 +320,15 @@
     }
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+#pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"editViewSegue"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        EditListingTableViewController *destViewController = segue.destinationViewController;
+        destViewController.listing = [_listings objectAtIndex:indexPath.row];
+    }
 }
-*/
+
 
 @end

@@ -1,70 +1,98 @@
 //
-//  ListingInformationTableViewController.m
+//  EditListingTableViewController.m
 //  BuscoMoto
 //
-//  Created by Paulo Mogollon on 10/6/15.
+//  Created by Paulo Mogollon on 10/14/15.
 //  Copyright © 2015 Indesign Colombia. All rights reserved.
 //
 
-#import "ListingInformationTableViewController.h"
+#import "EditListingTableViewController.h"
 
-@interface ListingInformationTableViewController ()
+@interface EditListingTableViewController ()
 
 @end
 
-@implementation ListingInformationTableViewController
+@implementation EditListingTableViewController
+
+@synthesize listing;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setTitle:@"Nueva Publicación"];
+    [self setTitle:@"Editar Publicación"];
+    
+    if(!self.listing){
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc]initWithTitle:@"Cerrar" style:UIBarButtonItemStylePlain target:self action:@selector(dismissView)];
-    self.navigationItem.leftBarButtonItem = closeButton;
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithTitle:@"Guardar" style:UIBarButtonItemStylePlain target:self action:@selector(saveListing)];
+    self.navigationItem.rightBarButtonItem = saveButton;
     
     
     [self loadData];
     
-    self.images = [[NSMutableArray alloc]init];
+    if(listing.images.allObjects.count > 0){
+        self.images = [listing.images.allObjects mutableCopy];
+    }else{
+        self.images = [[NSMutableArray alloc]init];
+    }
     
+    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
     
     // INIT TABLE
     [_cellManufacturer.textLabel setText:@"Marca"];
-    [_cellManufacturer.detailTextLabel setText:@""];
+    [_cellManufacturer.detailTextLabel setText:listing.manufacturer.name];
+    _selectedManufacturers = @[listing.manufacturer];
     
     [_cellModel.textLabel setText:@"Referencia"];
-    [_cellModel.detailTextLabel setText:@""];
+    [_cellModel.detailTextLabel setText:listing.reference.name];
+    _selectedModels = @[listing.reference];
     
     [_cellCity.textLabel setText:@"Ciudad"];
-    [_cellCity.detailTextLabel setText:@""];
+    [_cellCity.detailTextLabel setText:listing.city.name];
+    _selectedCity = listing.city;
+
+    
+    [_cellDistrict.textLabel setText:@"Barrio"];
+    [_cellDistrict.detailTextLabel setText:listing.district];
     
     [_cellPrice.textLabel setText:@"Precio"];
-    [_cellPrice.detailTextLabel setText:@""];
+    [_cellPrice.detailTextLabel setText:[formatter stringFromNumber:listing.price]];
     
     [_cellOdometer.textLabel setText:@"Kilometraje"];
-    [_cellOdometer.detailTextLabel setText:@""];
+    [_cellOdometer.detailTextLabel setText:[formatter stringFromNumber:listing.odometer]];
     
     [_cellLicense.textLabel setText:@"Placa"];
-    [_cellLicense.detailTextLabel setText:@""];
+    [_cellLicense.detailTextLabel setText:listing.licenseNumber];
     
     [_cellYear.textLabel setText:@"Modelo (Año)"];
-    [_cellYear.detailTextLabel setText:@""];
+    [_cellYear.detailTextLabel setText:[listing.year stringValue]];
     
     [_cellColor.textLabel setText:@"Color"];
-    [_cellColor.detailTextLabel setText:@""];
+    [_cellColor.detailTextLabel setText:listing.color];
     
-    [_textAreaDescription setPlaceholder:@"Descripción"];
+    if(listing.descriptionText.length > 0){
+        [_textAreaDescription setText:listing.descriptionText];
+    }else{
+        [_textAreaDescription setPlaceholder:@"Descripción"];
+    }
     
     [_cellAditionals.textLabel setText:@"Caracteristicas"];
-    [_cellAditionals.detailTextLabel setText:@""];
     
-    [_cellNext.textLabel setText:@"Guardar"];
-    [_cellNext.textLabel setTextColor:[UIColor whiteColor]];
-    [_cellNext setBackgroundColor:[UIColor successColor]];
+    if(listing.features.count > 0){
+        _selectedFeatures = listing.features.allObjects;
+        NSString *text = [NSString stringWithFormat:@"%@ +%lu", [[_selectedFeatures firstObject] name], (unsigned long)_selectedFeatures.count];
+        [_cellAditionals.detailTextLabel setText:text];
+    }else{
+        [_cellAditionals.detailTextLabel setText:@""];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -78,6 +106,30 @@
             _manufacturers = [Manufacturer MR_findAllSortedBy:@"ordering,name" ascending:YES];
             _cities = [City MR_findAllSortedBy:@"ordering,name" ascending:YES];
             _features = [Feature MR_findAllSortedBy:@"categoryID,name" ascending:YES];
+            
+            NSInteger anIndex = [_manufacturers indexOfObject:listing.manufacturer];
+            if(NSNotFound != anIndex) {
+                _selectedManufacturersRows = @[[NSNumber numberWithInteger:anIndex]];
+                [self setPosibleModels:_selectedManufacturers];
+            }
+            
+            anIndex = [_models indexOfObject:listing.reference];
+            if(NSNotFound != anIndex) {
+                _selectedModelsRows = @[[NSNumber numberWithInteger:anIndex]];
+            }
+            
+            anIndex = [_cities indexOfObject:listing.city];
+            if(NSNotFound != anIndex) {
+                _selectedCityRows = @[[NSNumber numberWithInteger:anIndex]];
+            }
+            
+            _selectedFeaturesRows = @[];
+            for (Feature *feature in listing.features) {
+                anIndex = [_features indexOfObject:feature];
+                if(NSNotFound != anIndex) {
+                    _selectedFeaturesRows = [_selectedFeaturesRows arrayByAddingObject:[NSNumber numberWithInteger:anIndex]];
+                }
+            }
         }else{
             NSLog(@"ERROR: %@", error);
         }
@@ -97,7 +149,7 @@
         [_slideShow setPagingEnabled: YES];
         [_slideShow setShowsHorizontalScrollIndicator:NO];
         
-        CGFloat xP = (width/2) - ((width/2)/2);//??? But it works
+        CGFloat xP = (width/2) - ((width/2)/2);
         _pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(xP, height-30, width/2, 15)];
         [_pageControl setNumberOfPages:_images.count];
         [_pageControl setCurrentPage:0];
@@ -108,7 +160,12 @@
             for (int i = 0; i < _images.count; i++) {
                 UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(x, 0, width, _slideShow.frame.size.height)];
                 [img setContentMode:UIViewContentModeScaleAspectFit];
-                [img setImage:[_images objectAtIndex:i]];
+                if([[_images objectAtIndex:i] isKindOfClass:[NSManagedObject class]]){
+                    Image *image = [_images objectAtIndex:i];
+                    [img sd_setImageWithURL:[NSURL URLWithString:image.imageURL] placeholderImage:[UIImage imageNamed:@"listing_image"]];
+                }else{
+                    [img setImage:[_images objectAtIndex:i]];
+                }
                 [img setUserInteractionEnabled:YES];
                 //The setup code (in viewDidLoad in your view controller)
                 UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showImageActions)];
@@ -166,11 +223,34 @@
             default:
                 break;
         }
+        
+        if(indexPath.row == 3){
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Barrio" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
+                // optionally configure the text field
+                [textField setText:_cellDistrict.detailTextLabel.text];
+                textField.keyboardType = UIKeyboardTypeAlphabet;
+            }];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancelar" style:UIAlertActionStyleCancel handler:nil];
+            [alert addAction:cancelAction];
+            
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Aceptar" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [_cellDistrict.textLabel setTextColor:[UIColor blackColor]];
+                [_cellDistrict.detailTextLabel setText:[alert.textFields firstObject].text];
+                [_cellDistrict setAccessoryType:UITableViewCellAccessoryCheckmark];
+            }];
+            [alert addAction:okAction];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        
     }else if(indexPath.section == 1){
         if(indexPath.row == 0){
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Precio" message:@"Escoge un precio que este de acuerdo al modelo y estado de tu moto." preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
                 // optionally configure the text field
+                [textField setText:_cellPrice.detailTextLabel.text];
                 textField.delegate = self;
                 textField.tag = 11;
                 textField.keyboardType = UIKeyboardTypeNumberPad;
@@ -179,7 +259,7 @@
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancelar" style:UIAlertActionStyleCancel handler:nil];
             [alert addAction:cancelAction];
             
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Aceptar" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {                
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Aceptar" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 if([alert.textFields firstObject].text.length < 7 || [alert.textFields firstObject].text.length > 11){
                     // Invalid price input
                     [_cellPrice.textLabel setTextColor:[UIColor dangerColor]];
@@ -200,6 +280,7 @@
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Kilometraje" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
                 // optionally configure the text field
+                [textField setText:_cellOdometer.detailTextLabel.text];
                 textField.delegate = self;
                 textField.tag = 12;
                 textField.keyboardType = UIKeyboardTypeNumberPad;
@@ -215,7 +296,7 @@
                     [_cellOdometer setAccessoryType:UITableViewCellAccessoryNone];
                     [_cellOdometer.detailTextLabel setText:[alert.textFields firstObject].text];
                     // UIALERTVIEW
-
+                    
                 }else{
                     [_cellOdometer.textLabel setTextColor:[UIColor blackColor]];
                     [_cellOdometer.detailTextLabel setText:[alert.textFields firstObject].text];
@@ -229,6 +310,7 @@
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Modelo (Año)" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
                 // optionally configure the text field
+                [textField setText:_cellYear.detailTextLabel.text];
                 textField.delegate = self;
                 textField.tag = 13;
                 textField.keyboardType = UIKeyboardTypeNumberPad;
@@ -258,6 +340,7 @@
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Placa" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
                 // optionally configure the text field
+                [textField setText:_cellLicense.detailTextLabel.text];
                 textField.delegate = self;
                 textField.tag = 14;
                 textField.keyboardType = UIKeyboardTypeAlphabet;
@@ -287,6 +370,7 @@
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Color" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
                 // optionally configure the text field
+                [textField setText:_cellColor.detailTextLabel.text];
                 textField.keyboardType = UIKeyboardTypeAlphabet;
             }];
             
@@ -314,71 +398,55 @@
             
         }else if(indexPath.row == 6){
             [self showCZPickerForFeatures];
-        }else if(indexPath.row == 7){
-            if(![self isComplete]){
-                UIAlertView *av = [[UIAlertView alloc]initWithTitle:@"Te falta algo" message:@"Debes llenar los campos en rojo y subir al menos 2 fotos" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [av show];
-                return;
-            }
-            
-            [KVNProgress showProgress:0.1f status:@"Creando Publicaión"];
-            
-            NSMutableArray *features = [[NSMutableArray alloc]init];
-            
-            for (Feature *feature in _selectedFeatures) {
-                [features addObject:feature.featureID];
-            }
-            
-            
-            if(_textAreaDescription.text.length == 0){
-                [_textAreaDescription setText:@""];
-            }
-            
-            NSDictionary *params = @{@"manufacturer_id" : [[_selectedManufacturers firstObject] manufacturerID],
-                                     @"model_id" : [[_selectedModels firstObject] modelID],
-                                     @"city_id" : [_selectedCity cityID],
-                                     @"district" : @"",
-                                     @"price" : _cellPrice.detailTextLabel.text,
-                                     @"odometer" : _cellOdometer.detailTextLabel.text,
-                                     @"license_number" : _cellLicense.detailTextLabel.text,
-                                     @"color" : _cellColor.detailTextLabel.text,
-                                     @"year" : _cellYear.detailTextLabel.text,
-                                     @"description" : _textAreaDescription.text,
-                                     @"features" : features
-                                     };
-            
-            [KVNProgress showProgress:0.3f status:@"Creando Publicación"];
-
-            [[BMCOAPIManager sharedInstance]POSTListingWithParams:params onCompletion:^(NSNumber *listingID, NSError *error){
-                if(!error && listingID){
-                    self.uploadedImages = @(self.images.count);
-                    __weak ListingInformationTableViewController *weakSelf = self;
-                    
-                    if(_images.count > 0){
-                        [KVNProgress showProgress:0.5f status:[NSString stringWithFormat:@"Cargando %lu Fotos", (unsigned long)_images.count]];
-                        for (UIImage *image in _images) {
-                            [[BMCOAPIManager sharedInstance]POSTListingImage:image withParams:@{@"listing_id" : listingID} onCompletion:^(id newImage, NSError *error){
-                                if(!error && newImage){
-                                    weakSelf.uploadedImages = [NSNumber numberWithInt:(weakSelf.uploadedImages.intValue-1)];
-                                    if(weakSelf.uploadedImages.intValue == 0){
-                                        [KVNProgress showSuccessWithStatus:@"Publicación Guardada Exitosamente"];
-                                        [weakSelf dismissViewControllerAnimated:YES completion:nil];
-                                    }
-                                }else{
-                                    [KVNProgress showErrorWithStatus:@"Error al cargas imagenes"];
-                                }
-                            }];
-                            
-                            
-                        }
-                    }
-                }else{
-                    [KVNProgress showErrorWithStatus:@"Error al crear la publicación"];
-                }
-            }];
         }
     }
+}
+
+
+- (void)saveListing{
+    if(![self isComplete]){
+        UIAlertView *av = [[UIAlertView alloc]initWithTitle:@"Te falta algo" message:@"Debes llenar los campos en rojo y subir al menos 2 fotos" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [av show];
+        return;
+    }
     
+    [KVNProgress showProgress:0.1f status:@"Guardando Publicación"];
+    
+    NSMutableArray *features = [[NSMutableArray alloc]init];
+    
+    for (Feature *feature in _selectedFeatures) {
+        [features addObject:feature.featureID];
+    }
+    
+    
+    if(_textAreaDescription.text.length == 0){
+        [_textAreaDescription setText:@""];
+    }
+    
+    NSDictionary *params = @{@"manufacturer_id" : [[_selectedManufacturers firstObject] manufacturerID],
+                             @"model_id" : [[_selectedModels firstObject] modelID],
+                             @"engine_size" : listing.engineSize,
+                             @"city_id" : [_selectedCity cityID],
+                             @"district" : _cellDistrict.detailTextLabel.text,
+                             @"price" : _cellPrice.detailTextLabel.text,
+                             @"odometer" : _cellOdometer.detailTextLabel.text,
+                             @"license_number" : _cellLicense.detailTextLabel.text,
+                             @"color" : _cellColor.detailTextLabel.text,
+                             @"year" : _cellYear.detailTextLabel.text,
+                             @"description" : _textAreaDescription.text,
+                             @"features" : features
+                             };
+    
+    [KVNProgress showProgress:0.3f status:@"Guardando Publicación"];
+    
+    [[BMCOAPIManager sharedInstance]PUTListing:listing.listingID WithParams:params onCompletion:^(NSNumber *listingID, NSError *error){
+        if(!error && listingID){
+            [self.navigationController popViewControllerAnimated:YES];
+            [KVNProgress showSuccessWithStatus:@"Publicación Guardada Exitosamente"];
+        }else{
+            [KVNProgress showErrorWithStatus:@"Error al guardar la publicación"];
+        }
+    }];
 }
 
 
@@ -538,23 +606,23 @@
         
         if (numberOfMatches == 0)
             return NO;
-    }else if(textField.tag == 14){        
+    }else if(textField.tag == 14){
         if(string.length == 0){
             return YES;
         }
         
         // All digits entered
-        if (range.location >= 6) {
+        if (range.location == 6) {
             return NO;
         }
         
         // Reject appending non-digit characters
-        if (range.location <= 2 && ![[NSCharacterSet letterCharacterSet] characterIsMember:[string characterAtIndex:0]]) {
+        if (range.location < 2 && ![[NSCharacterSet letterCharacterSet] characterIsMember:[string characterAtIndex:0]]) {
             return NO;
         }
         
         // Auto-add hyphen and parentheses
-        if (range.location >= 3 && ![[NSCharacterSet decimalDigitCharacterSet] characterIsMember:[string characterAtIndex:0]]) {
+        if (range.location > 2 && ![[NSCharacterSet decimalDigitCharacterSet] characterIsMember:[string characterAtIndex:0]]) {
             return NO;
         }
     }
@@ -593,13 +661,26 @@
         [cropController setTitle:@"Editar"];
         [self presentViewController:cropController animated:YES completion:nil];
     }else if(buttonIndex == 2 && _images.count > 0){
-        CGFloat pageWidth = _slideShow.frame.size.width; // you need to have a **iVar** with getter for scrollView
+        // DELETE IMAGE
+        CGFloat pageWidth = _slideShow.frame.size.width;
         float fractionalPage = _slideShow.contentOffset.x / pageWidth;
         NSInteger page = lround(fractionalPage);
         
         NSLog(@"DELETE: %ld", (long)page);
+        Image *image = [_images objectAtIndex:page];
         [_images removeObjectAtIndex:page];
         [self.tableView reloadData];
+        
+        
+        [[BMCOAPIManager sharedInstance]DELETEListingImage:image.imageID onCompletion:^(BOOL success, NSError *error){
+            if(success){
+                [JDStatusBarNotification showWithStatus:@"Imagen eliminada exitosamente" dismissAfter:3];
+            }else{
+                [KVNProgress showErrorWithStatus:@"Error al eliminar la imagen"];
+                [_images addObject:image];
+                [self.tableView reloadData];
+            }
+        }];
     }
 }
 
@@ -622,13 +703,21 @@
 
 #pragma mark - Cropper Delegate -
 - (void)cropViewController:(TOCropViewController *)cropViewController didCropToImage:(UIImage *)image withRect:(CGRect)cropRect angle:(NSInteger)angle{
-    [_images addObject:image];
-    [self.tableView reloadData];
-    
-    CGRect frame = CGRectMake(0, self.tableView.frame.origin.y, _slideShow.frame.size.width, _slideShow.frame.size.height);
-    
-    [cropViewController dismissAnimatedFromParentViewController:self withCroppedImage:image toFrame:frame completion:^{
-        [_slideShow setContentOffset:CGPointMake(_slideShow.frame.size.width*(_images.count-1), 0) animated:YES];
+    [[BMCOAPIManager sharedInstance]POSTListingImage:image withParams:@{@"listing_id" : listing.listingID} onCompletion:^(id newImage, NSError *error){
+        if(!error && newImage){
+            [_images addObject:newImage];
+            [self.tableView reloadData];
+            
+            CGRect frame = CGRectMake(0, self.tableView.frame.origin.y, _slideShow.frame.size.width, _slideShow.frame.size.height);
+            
+            [cropViewController dismissAnimatedFromParentViewController:self withCroppedImage:image toFrame:frame completion:^{
+                [_slideShow setContentOffset:CGPointMake(_slideShow.frame.size.width*(_images.count-1), 0) animated:YES];
+            }];
+
+            [JDStatusBarNotification showWithStatus:@"Imagen cargada exitosamente" dismissAfter:5];
+        }else{
+            [KVNProgress showErrorWithStatus:@"Error al cargar la imagen"];
+        }
     }];
 }
 

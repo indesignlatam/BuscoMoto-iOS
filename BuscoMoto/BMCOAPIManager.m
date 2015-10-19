@@ -45,9 +45,8 @@
                     @try {
                         if([op.responseObject isKindOfClass:[NSDictionary class]]){
                             NSDictionary *jsonData = [op.responseObject objectForKey:@"data"];
-                            NSLog(@"%@", op.responseObject);
                             if(jsonData){
-                                User *user = [EKManagedObjectMapper objectFromExternalRepresentation:jsonData withMapping:[User objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                User *user = [User objectWithProperties:jsonData inContext:[NSManagedObjectContext MR_defaultContext]];
                                 completionBlock(user, nil);
                             }
                         }
@@ -58,7 +57,33 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"%@", localizedDescription);
-                    NSLog(@"Error fetching user: %@", op.error);
+                    completionBlock(nil, op.error);
+                }];
+}
+
+- (void)PUTUser:(NSNumber *)userID withParams:(NSDictionary*)params onCompletion:(GetObjectCompletitionBlock)completionBlock{
+    IDCAuthManager *manager = [IDCAuthManager sharedInstance];
+    IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
+                                              requestMethod:@"PUT"
+                                                    forPath:[NSString stringWithFormat:@"v2/user/%@", userID]
+                                             withParameters:params];
+    [manager authorizedOp:op
+                onSuccess:^() {
+                    @try {
+                        if([op.responseObject isKindOfClass:[NSDictionary class]]){
+                            NSDictionary *jsonData = [op.responseObject objectForKey:@"data"];
+                            if(jsonData){
+                                User *user = [User objectWithProperties:jsonData inContext:[NSManagedObjectContext MR_defaultContext]];
+                                completionBlock(user, nil);
+                            }
+                        }
+                    }@catch (NSException *ex) {
+                        NSLog(@"Exception catched: %@", ex.description);
+                        completionBlock(nil, nil);
+                    }
+                }
+                onFailure:^(NSString *localizedDescription) {
+                    NSLog(@"%@", localizedDescription);
                     completionBlock(nil, op.error);
                 }];
 }
@@ -75,9 +100,8 @@
                         if([op.responseObject isKindOfClass:[NSDictionary class]]){
                             NSArray *jsonData = [op.responseObject objectForKey:@"data"];
                             if(jsonData){
-                                NSArray *objects = [EKMapper arrayOfObjectsFromExternalRepresentation:jsonData
-                                                                                          withMapping:[Listing objectMapping]];
-                                completionBlock(objects, nil);
+                                NSArray *listigns = [EKManagedObjectMapper arrayOfObjectsFromExternalRepresentation:jsonData withMapping:[Listing objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                completionBlock(listigns, nil);
                             }
                         }
                     }@catch (NSException *ex) {
@@ -86,7 +110,6 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"%@", localizedDescription);
-                    NSLog(@"Error fetching user: %@", op.error);
                     completionBlock(nil, op.error);
                 }];
 }
@@ -125,13 +148,14 @@
     [manager authorizedOp:op
                 onSuccess:^() {
                     @try {
-                        NSLog(@"RO; %@", op.responseObject);
                         if([op.responseObject isKindOfClass:[NSDictionary class]]){
                             id data = [op.responseObject objectForKey:@"data"];
                             if([data isKindOfClass:[NSDictionary class]]){
-                                Listing *listing = [EKMapper objectFromExternalRepresentation:data withMapping:[Listing objectMapping]];
-                                
-                                completionBlock(listing, nil);
+                                if([data objectForKey:@"success"]){
+                                    completionBlock([data objectForKey:@"id"], nil);
+                                }else{
+                                    completionBlock(nil, nil);
+                                }
                             }
                         }
                     }@catch (NSException *ex) {
@@ -144,7 +168,37 @@
                 }];
 }
 
-- (void)POSTListingImage:(UIImage*)image withParams:(NSDictionary *)params onCompletion:(GetBOOLCompletitionBlock)completionBlock{
+- (void)PUTListing:(NSNumber *)objectID WithParams:(NSDictionary *)params onCompletion:(GetObjectCompletitionBlock)completionBlock{
+    IDCAuthManager *manager = [IDCAuthManager sharedInstance];
+    IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
+                                              requestMethod:@"PUT"
+                                                    forPath:[NSString stringWithFormat:@"v2/listings/%@", objectID]
+                                             withParameters:params];
+    [manager authorizedOp:op
+                onSuccess:^() {
+                    @try {
+                        if([op.responseObject isKindOfClass:[NSDictionary class]]){
+                            id data = [op.responseObject objectForKey:@"data"];
+                            if([data isKindOfClass:[NSDictionary class]]){
+                                if([data objectForKey:@"success"]){
+                                    completionBlock([data objectForKey:@"id"], nil);
+                                }else{
+                                    completionBlock(nil, nil);
+                                }
+                            }
+                        }
+                    }@catch (NSException *ex) {
+                        NSLog(@"Exception catched: %@", ex.description);
+                    }
+                }
+                onFailure:^(NSString *localizedDescription) {
+                    NSLog(@"%@", localizedDescription);
+                    completionBlock(nil, op.error);
+                }];
+}
+
+
+- (void)POSTListingImage:(UIImage*)image withParams:(NSDictionary *)params onCompletion:(GetObjectCompletitionBlock)completionBlock{
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"POST"
@@ -157,22 +211,43 @@
     [manager authorizedOp:op
                 onSuccess:^() {
                     @try {
-                        NSLog(@"RO; %@", op.responseObject);
                         if([op.responseObject isKindOfClass:[NSDictionary class]]){
-                            //id data = [op.responseObject objectForKey:@"data"];
-//                            if([data isKindOfClass:[NSDictionary class]]){
-//                                Listing *listing = [EKMapper objectFromExternalRepresentation:data withMapping:[Listing objectMapping]];
-//                                
-//                                
-//                            }
-                            completionBlock(true, nil);
+                            if([[op.responseObject objectForKey:@"data"] isKindOfClass:[NSDictionary class]]){
+                                NSDictionary *data = [[op.responseObject objectForKey:@"data"] objectForKey:@"image"];
+                                Image *newImage = [Image objectWithProperties:data inContext:[NSManagedObjectContext MR_defaultContext]];
+                                completionBlock(newImage, nil);
+                            }
                         }
                     }@catch (NSException *ex) {
                         NSLog(@"Exception catched: %@", ex.description);
                     }
                 }
                 onFailure:^(NSString *localizedDescription) {
-                    NSLog(@"ERROR LD: %@", localizedDescription);
+                    NSLog(@"ERROR: %@", localizedDescription);
+                    completionBlock(nil, op.error);
+                }];
+}
+
+- (void)DELETEListingImage:(NSNumber *)imageID onCompletion:(GetBOOLCompletitionBlock)completionBlock{
+    IDCAuthManager *manager = [IDCAuthManager sharedInstance];
+    IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
+                                              requestMethod:@"DELETE"
+                                                    forPath:[NSString stringWithFormat:@"v2/listings/image/%@", imageID]
+                                             withParameters:nil];
+    [manager authorizedOp:op
+                onSuccess:^() {
+                    @try {
+                        if([op.responseObject isKindOfClass:[NSDictionary class]]){
+                            if([[op.responseObject objectForKey:@"data"] isKindOfClass:[NSDictionary class]]){
+                                completionBlock([op.responseObject objectForKey:@"data"], nil);
+                            }
+                        }
+                    }@catch (NSException *ex) {
+                        NSLog(@"Exception catched: %@", ex.description);
+                    }
+                }
+                onFailure:^(NSString *localizedDescription) {
+                    NSLog(@"ERROR: %@", localizedDescription);
                     completionBlock(nil, op.error);
                 }];
 }
@@ -189,7 +264,7 @@
                         if([op.responseObject isKindOfClass:[NSDictionary class]]){
                             id data = [op.responseObject objectForKey:@"data"];
                             if([data isKindOfClass:[NSDictionary class]]){
-                                Listing *listing = [EKMapper objectFromExternalRepresentation:data withMapping:[Listing objectMapping]];
+                                Listing *listing = [Listing objectWithProperties:data inContext:[NSManagedObjectContext MR_defaultContext]];
                                 completionBlock(listing, nil);
                             }
                         }

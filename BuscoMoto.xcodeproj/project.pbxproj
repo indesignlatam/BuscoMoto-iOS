@@ -52,6 +52,9 @@
 		FC8D84581BA6261100DAD5B7 /* ListingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC8D84571BA6261100DAD5B7 /* ListingViewController.m */; };
 		FC98D4D11BA5B968003CA233 /* ListingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC98D4D01BA5B968003CA233 /* ListingsTableViewController.m */; };
 		FC98D4D41BA5C096003CA233 /* ListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FC98D4D31BA5C096003CA233 /* ListingCell.m */; };
+		FCAA0B9F1BCD8E660052F81B /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = FCAA0B9E1BCD8E660052F81B /* UIPlaceHolderTextView.m */; };
+		FCAA0BA21BCEB0BC0052F81B /* EditListingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FCAA0BA11BCEB0BC0052F81B /* EditListingTableViewController.m */; };
+		FCAA0BA51BCFE34E0052F81B /* ProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FCAA0BA41BCFE34E0052F81B /* ProfileTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -143,6 +146,12 @@
 		FC98D4D01BA5B968003CA233 /* ListingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingsTableViewController.m; sourceTree = "<group>"; };
 		FC98D4D21BA5C096003CA233 /* ListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingCell.h; sourceTree = "<group>"; };
 		FC98D4D31BA5C096003CA233 /* ListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingCell.m; sourceTree = "<group>"; };
+		FCAA0B9D1BCD8E660052F81B /* UIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceHolderTextView.h; sourceTree = "<group>"; };
+		FCAA0B9E1BCD8E660052F81B /* UIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceHolderTextView.m; sourceTree = "<group>"; };
+		FCAA0BA01BCEB0BC0052F81B /* EditListingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditListingTableViewController.h; sourceTree = "<group>"; };
+		FCAA0BA11BCEB0BC0052F81B /* EditListingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditListingTableViewController.m; sourceTree = "<group>"; };
+		FCAA0BA31BCFE34E0052F81B /* ProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewController.h; sourceTree = "<group>"; };
+		FCAA0BA41BCFE34E0052F81B /* ProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,13 +183,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		FC19035D1BC1D3AB0062E24D /* Create Listing */ = {
+		FC19035D1BC1D3AB0062E24D /* My Listings */ = {
 			isa = PBXGroup;
 			children = (
+				FC7BE8981BBCC09E0004DB99 /* MyListingsTableViewController.h */,
+				FC7BE8991BBCC09E0004DB99 /* MyListingsTableViewController.m */,
 				FC19037D1BC4126F0062E24D /* ListingInformationTableViewController.h */,
 				FC19037E1BC4126F0062E24D /* ListingInformationTableViewController.m */,
+				FCAA0BA01BCEB0BC0052F81B /* EditListingTableViewController.h */,
+				FCAA0BA11BCEB0BC0052F81B /* EditListingTableViewController.m */,
 			);
-			name = "Create Listing";
+			name = "My Listings";
 			sourceTree = "<group>";
 		};
 		FC1903751BC2C1420062E24D /* DKImage */ = {
@@ -260,6 +273,8 @@
 				FC547A7E1BB0F18600433F9F /* IDCDate.m */,
 				FC6380341BBF35E000488F4A /* NSString+Helpers.h */,
 				FC6380351BBF35E000488F4A /* NSString+Helpers.m */,
+				FCAA0B9D1BCD8E660052F81B /* UIPlaceHolderTextView.h */,
+				FCAA0B9E1BCD8E660052F81B /* UIPlaceHolderTextView.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -372,9 +387,9 @@
 				FC98D4CF1BA5B968003CA233 /* ListingsTableViewController.h */,
 				FC98D4D01BA5B968003CA233 /* ListingsTableViewController.m */,
 				FC785ADB1BCC2E2E003170BC /* Listing View */,
-				FC7BE8981BBCC09E0004DB99 /* MyListingsTableViewController.h */,
-				FC7BE8991BBCC09E0004DB99 /* MyListingsTableViewController.m */,
-				FC19035D1BC1D3AB0062E24D /* Create Listing */,
+				FC19035D1BC1D3AB0062E24D /* My Listings */,
+				FCAA0BA31BCFE34E0052F81B /* ProfileTableViewController.h */,
+				FCAA0BA41BCFE34E0052F81B /* ProfileTableViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -413,6 +428,7 @@
 				TargetAttributes = {
 					FC82098E1BA0FAC4008D3C1E = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = KZ58SRB253;
 					};
 				};
 			};
@@ -503,6 +519,7 @@
 			files = (
 				FC8D84581BA6261100DAD5B7 /* ListingViewController.m in Sources */,
 				FC547AA01BB2EC6F00433F9F /* LoginViewController.m in Sources */,
+				FCAA0BA21BCEB0BC0052F81B /* EditListingTableViewController.m in Sources */,
 				FC547A8A1BB0FAF900433F9F /* BMCOAPIManager.m in Sources */,
 				FC98D4D11BA5B968003CA233 /* ListingsTableViewController.m in Sources */,
 				FC1A959F1BB6F1FD00567760 /* ParallaxHeaderView.m in Sources */,
@@ -512,6 +529,7 @@
 				FC1A95A31BB744D100567760 /* Manufacturer.m in Sources */,
 				FC1A95AA1BB7537800567760 /* Reference.m in Sources */,
 				FC1903721BC2C13A0062E24D /* DKImageCell.m in Sources */,
+				FCAA0BA51BCFE34E0052F81B /* ProfileTableViewController.m in Sources */,
 				FC547A8E1BB1034800433F9F /* BMCONoAUTHAPIManager.m in Sources */,
 				FC547A741BB0D72F00433F9F /* IDCAuthManager.m in Sources */,
 				FC6380301BBF02E800488F4A /* MyListingCell.m in Sources */,
@@ -525,6 +543,7 @@
 				FC8209971BA0FAC5008D3C1E /* AppDelegate.m in Sources */,
 				FC1903561BC1CA840062E24D /* CreaListingPagerContainerViewController.m in Sources */,
 				FC19035B1BC1CC930062E24D /* XLButtonBarView.m in Sources */,
+				FCAA0B9F1BCD8E660052F81B /* UIPlaceHolderTextView.m in Sources */,
 				FC8209941BA0FAC5008D3C1E /* main.m in Sources */,
 				FC19035C1BC1CC930062E24D /* XLButtonBarViewCell.m in Sources */,
 				FC1A959A1BB6E91300567760 /* Message.m in Sources */,
@@ -653,6 +672,7 @@
 			baseConfigurationReference = 507DEBEE532479EA514E2323 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = buscomoto/PrefixHeader.pch;
 				INFOPLIST_FILE = BuscoMoto/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -667,6 +687,7 @@
 			baseConfigurationReference = 4FAB07BA636C83BD11AB6678 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = buscomoto/PrefixHeader.pch;
 				INFOPLIST_FILE = BuscoMoto/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

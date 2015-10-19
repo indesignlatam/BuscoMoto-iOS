@@ -8,8 +8,6 @@
 
 #import <EasyMapping/EasyMapping.h>
 
-#import "Listing.h"
-
 @interface Image : EKManagedObjectModel
 
 @property (nonatomic, retain) NSNumber *imageID;

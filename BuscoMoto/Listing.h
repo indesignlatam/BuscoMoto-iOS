@@ -10,47 +10,54 @@
 
 #import "User.h"
 #import "City.h"
+#import "Feature.h"
+#import "Image.h"
 #import "ListingType.h"
+#import "Manufacturer.h"
+#import "Reference.h"
 
 
 @interface Listing : EKManagedObjectModel
 
-@property (nonatomic, retain) NSNumber *listingID;
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *slug;
-@property (nonatomic, retain) NSString *district;
-@property (nonatomic, retain) NSString *descriptionText;
-@property (nonatomic, retain) NSString *color;
-@property (nonatomic, retain) NSString *licenseNumber;
-@property (nonatomic, retain) NSString *imageURL;
-@property (nonatomic, retain) NSNumber *price;
-@property (nonatomic, retain) NSNumber *engineSize;
-@property (nonatomic, retain) NSNumber *year;
-@property (nonatomic, retain) NSNumber *odometer;
-@property (nonatomic, retain) NSNumber *views;
-@property (nonatomic, retain) NSNumber *points;
-
-@property BOOL liked;
-@property bool contacted;
-
-@property (nonatomic, retain) NSDate *featuredExpiresAt;
-@property (nonatomic, retain) NSDate *expiresAt;
-@property (nonatomic, retain) NSDate *updatedAt;
-
-
-@property (nonatomic, retain) NSSet *images;
-@property (nonatomic, retain) NSSet *features;
-@property (nonatomic, retain) User *user;
-@property (nonatomic, retain) City *city;
-@property (nonatomic, retain) ListingType *type;
+@property (nullable, nonatomic, retain) NSString *color;
+@property (nullable, nonatomic, retain) NSNumber *contacted;
+@property (nullable, nonatomic, retain) NSString *descriptionText;
+@property (nullable, nonatomic, retain) NSString *district;
+@property (nullable, nonatomic, retain) NSNumber *engineSize;
+@property (nullable, nonatomic, retain) NSDate *expiresAt;
+@property (nullable, nonatomic, retain) NSString *imageURL;
+@property (nullable, nonatomic, retain) NSString *licenseNumber;
+@property (nullable, nonatomic, retain) NSNumber *liked;
+@property (nullable, nonatomic, retain) NSNumber *listingID;
+@property (nullable, nonatomic, retain) NSNumber *odometer;
+@property (nullable, nonatomic, retain) NSNumber *points;
+@property (nullable, nonatomic, retain) NSNumber *price;
+@property (nullable, nonatomic, retain) NSString *slug;
+@property (nullable, nonatomic, retain) NSString *title;
+@property (nullable, nonatomic, retain) NSDate *updatedAt;
+@property (nullable, nonatomic, retain) NSNumber *views;
+@property (nullable, nonatomic, retain) NSNumber *year;
+@property (nullable, nonatomic, retain) NSDate *featuredExpiresAt;
+@property (nullable, nonatomic, retain) City *city;
+@property (nullable, nonatomic, retain) NSSet<Feature *> *features;
+@property (nullable, nonatomic, retain) NSSet<Image *> *images;
+@property (nullable, nonatomic, retain) ListingType *type;
+@property (nullable, nonatomic, retain) User *user;
+@property (nullable, nonatomic, retain) Manufacturer *manufacturer;
+@property (nullable, nonatomic, retain) Reference *reference;
 
 @end
 
 @interface Listing (CoreDataGeneratedAccessors)
 
+- (void)addFeaturesObject:(NSManagedObject *)value;
+- (void)removeFeaturesObject:(NSManagedObject *)value;
+- (void)addFeatures:(NSSet<NSManagedObject *> *)values;
+- (void)removeFeatures:(NSSet<NSManagedObject *> *)values;
+
 - (void)addImagesObject:(NSManagedObject *)value;
 - (void)removeImagesObject:(NSManagedObject *)value;
-- (void)addImages:(NSSet *)values;
-- (void)removeImages:(NSSet *)values;
+- (void)addImages:(NSSet<NSManagedObject *> *)values;
+- (void)removeImages:(NSSet<NSManagedObject *> *)values;
 
 @end

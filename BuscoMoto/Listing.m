@@ -37,6 +37,8 @@
 @dynamic features;
 @dynamic liked;
 @dynamic contacted;
+@dynamic manufacturer;
+@dynamic reference;
 
 
 +(EKManagedObjectMapping *)objectMapping{
@@ -48,7 +50,6 @@
                                           @"color",
                                           @"price",
                                           @"year",
-                                          @"odometer",
                                           @"views",
                                           @"points",
                                           ]];
@@ -58,6 +59,7 @@
                                                @"license_number"    : @"licenseNumber",
                                                @"image_url"         : @"imageURL",
                                                @"engine_size"       : @"engineSize",
+                                               @"odometer"          : @"odometer",
                                                }];
         
         // Dates
@@ -67,10 +69,12 @@
         
         // Relationships
         [mapping hasOne:[User class] forKeyPath:@"user"];
+        [mapping hasOne:[Manufacturer class] forKeyPath:@"manufacturer"];
+        [mapping hasOne:[Reference class] forKeyPath:@"model" forProperty:@"reference"];
         [mapping hasOne:[City class] forKeyPath:@"city"];
         [mapping hasOne:[ListingType class] forKeyPath:@"listing_type" forProperty:@"type"];
-        [mapping hasMany:Image.class forKeyPath:@"images"];
-//        [mapping hasMany:[Feature class] forKeyPath:@"features"];
+        [mapping hasMany:[Image class] forKeyPath:@"images"];
+        [mapping hasMany:[Feature class] forKeyPath:@"features"];
         
         mapping.primaryKey = @"listingID";
     }];

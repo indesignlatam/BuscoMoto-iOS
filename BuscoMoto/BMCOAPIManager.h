@@ -17,11 +17,14 @@ typedef void (^GetArrayCompletitionBlock)(NSArray *data, NSError *error);
 + (instancetype)sharedInstance;
 
 - (void)GETUserWithEmail:(NSString *)email onCompletion:(GetObjectCompletitionBlock)completionBlock;
+- (void)PUTUser:(NSNumber *)userID withParams:(NSDictionary*)params onCompletion:(GetObjectCompletitionBlock)completionBlock;
 - (void)GETListings:(GetArrayCompletitionBlock)completionBlock;
 - (void)POSTLikeWithParams:(NSNumber *)objectID onCompletion:(GetBOOLCompletitionBlock)completionBlock;
 - (void)POSTRenovateListingWithID:(NSNumber *)objectID onCompletion:(GetObjectCompletitionBlock)completionBlock;
 - (void)DELETEListingWithID:(NSNumber *)objectID onCompletion:(GetBOOLCompletitionBlock)completionBlock;
 - (void)POSTListingWithParams:(NSDictionary *)params onCompletion:(GetObjectCompletitionBlock)completionBlock;
-- (void)POSTListingImage:(UIImage*)image withParams:(NSDictionary *)params onCompletion:(GetBOOLCompletitionBlock)completionBlock;
+- (void)POSTListingImage:(UIImage*)image withParams:(NSDictionary *)params onCompletion:(GetObjectCompletitionBlock)completionBlock;
+- (void)PUTListing:(NSNumber *)objectID WithParams:(NSDictionary *)params onCompletion:(GetObjectCompletitionBlock)completionBlock;
+- (void)DELETEListingImage:(NSNumber *)imageID onCompletion:(GetBOOLCompletitionBlock)completionBlock;
 
 @end
