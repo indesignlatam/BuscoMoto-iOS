@@ -242,7 +242,9 @@
             }];
             [alert addAction:okAction];
             
-            [self presentViewController:alert animated:YES completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
         }
         
     }else if(indexPath.section == 1){
@@ -275,7 +277,9 @@
             }];
             [alert addAction:okAction];
             
-            [self presentViewController:alert animated:YES completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
         }else if(indexPath.row == 1){
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Kilometraje" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
@@ -305,7 +309,9 @@
             }];
             [alert addAction:okAction];
             
-            [self presentViewController:alert animated:YES completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
         }else if(indexPath.row == 2){
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Modelo (Año)" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
@@ -335,7 +341,9 @@
             }];
             [alert addAction:okAction];
             
-            [self presentViewController:alert animated:YES completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
         }else if(indexPath.row == 3){
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Placa" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
@@ -365,7 +373,9 @@
             }];
             [alert addAction:okAction];
             
-            [self presentViewController:alert animated:YES completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
         }else if(indexPath.row == 4){
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Color" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
@@ -392,8 +402,10 @@
                 }
             }];
             [alert addAction:okAction];
-            
-            [self presentViewController:alert animated:YES completion:nil];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
         }else if(indexPath.row == 5){
             
         }else if(indexPath.row == 6){
@@ -703,6 +715,8 @@
 
 #pragma mark - Cropper Delegate -
 - (void)cropViewController:(TOCropViewController *)cropViewController didCropToImage:(UIImage *)image withRect:(CGRect)cropRect angle:(NSInteger)angle{
+    [KVNProgress showWithStatus:@"Cargando foto"];
+     
     [[BMCOAPIManager sharedInstance]POSTListingImage:image withParams:@{@"listing_id" : listing.listingID} onCompletion:^(id newImage, NSError *error){
         if(!error && newImage){
             [_images addObject:newImage];
@@ -713,8 +727,8 @@
             [cropViewController dismissAnimatedFromParentViewController:self withCroppedImage:image toFrame:frame completion:^{
                 [_slideShow setContentOffset:CGPointMake(_slideShow.frame.size.width*(_images.count-1), 0) animated:YES];
             }];
-
-            [JDStatusBarNotification showWithStatus:@"Imagen cargada exitosamente" dismissAfter:5];
+            
+            [KVNProgress showSuccessWithStatus:@"Imagen cargada exitosamente"];
         }else{
             [KVNProgress showErrorWithStatus:@"Error al cargar la imagen"];
         }

@@ -83,6 +83,7 @@ static NSString * const K_KEYCHAIN_STORE = @"com.IDC.BMCO";
                 NSLog(@"User retrived");
                 [KVNProgress showProgress:0.8f status:@"Cargando datos de usuario"];
                 // Save the app username and password to keychain
+                [store setString:user.userID.stringValue forKey:@"userID"];
                 [store setString:_loginUsername.text forKey:@"username"];
                 [store setString:_loginPassword.text forKey:@"password"];
                 // Show success and dismiss modal

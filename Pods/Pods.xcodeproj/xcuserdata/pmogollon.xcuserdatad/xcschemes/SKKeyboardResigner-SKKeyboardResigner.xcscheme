@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "273C4817A590301648902AAC"
+               BlueprintIdentifier = "850BAF682D503B623B87643D"
                BuildableName = "SKKeyboardResigner.bundle"
                BlueprintName = "SKKeyboardResigner-SKKeyboardResigner"
                ReferencedContainer = "container:Pods.xcodeproj">

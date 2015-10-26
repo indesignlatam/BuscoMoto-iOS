@@ -25,5 +25,7 @@
 #import "NSString+Helpers.h"
 #import "IDCDate.h"
 #import "JDStatusBarNotification.h"
+#import "CRToast.h"
+
 
 #endif /* PrefixHeader_pch */

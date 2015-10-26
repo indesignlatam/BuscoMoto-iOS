@@ -70,11 +70,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"listing_cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    if (true) {
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-
+        
         NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
         [numberFormatter setNumberStyle: NSNumberFormatterDecimalStyle];
 
@@ -402,7 +401,6 @@
         CGFloat pageWidth = scrollView.frame.size.width; // you need to have a **iVar** with getter for scrollView
         float fractionalPage = scrollView.contentOffset.x / pageWidth;
         NSInteger page = lround(fractionalPage);
-        NSLog(@"PAGE: %ld", (long)page);
         self.pageControl.currentPage = page; // you need to have a **iVar** with getter for pageControl
     }
 }

@@ -10,6 +10,7 @@
 
 #import "Manufacturer.h"
 #import "Reference.h"
+#import "City.h"
 
 @interface SearchViewController ()
 
@@ -20,6 +21,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _manufacturers = [Manufacturer MR_findAllSortedBy:@"ordering,name" ascending:YES];
+    _models = [Reference MR_findAllSortedBy:@"name" ascending:YES];
+    _cities = [City MR_findAllSortedBy:@"name" ascending:YES];
+    
+    
+    
     
     [_searchModelSlider addTarget:self action:@selector(modelChanged:) forControlEvents:UIControlEventValueChanged];
     

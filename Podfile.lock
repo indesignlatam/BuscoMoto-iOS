@@ -24,6 +24,7 @@ PODS:
     - AFNetworking/NSURLConnection (~> 2.2)
   - BMASliders (1.0.0)
   - CBZSplashView (1.0.0)
+  - CRToast (0.0.9)
   - CZPicker (0.3.6)
   - DZNEmptyDataSet (1.7.2)
   - EAIntroView (2.7.4):
@@ -52,6 +53,7 @@ DEPENDENCIES:
   - AFOAuth2Manager
   - BMASliders (~> 1.0.0)
   - CBZSplashView (~> 1.0.0)
+  - CRToast
   - CZPicker (~> 0.3.6)
   - DZNEmptyDataSet
   - EAIntroView
@@ -74,6 +76,7 @@ SPEC CHECKSUMS:
   AFOAuth2Manager: 952eb62e8fd8022971e64c6e8fe28b9e999224af
   BMASliders: 6a6d6ca5f3f6fefce7ec9823d9c456fd03e106cc
   CBZSplashView: 9ce4cba22024476ff4a97d6433e7347da6376016
+  CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   CZPicker: bf966778ebd3af6c291b4a4190d08a0e2c5c6974
   DZNEmptyDataSet: 0ec00bfc230d7450997b60c127afdd0b9f24f3b6
   EAIntroView: 50b85eedf414260e61330070ffe5947e72493a62

@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSMutableDictionary *params;
 @property (nonatomic, retain) NSArray *models;
 @property (nonatomic, retain) NSArray *manufacturers;
+@property (nonatomic, retain) NSArray *cities;
 
 @property (nonatomic, retain) NSMutableArray *selectedTypes;
 @property (nonatomic, retain) NSArray *selectedManufacturers;

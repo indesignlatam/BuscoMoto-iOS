@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DC4C840EEDEB263851BFA194"
+               BlueprintIdentifier = "54FEC99F3508EB871509E1BF"
                BuildableName = "CZPicker.framework"
                BlueprintName = "CZPicker"
                ReferencedContainer = "container:Pods.xcodeproj">

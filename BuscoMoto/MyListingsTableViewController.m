@@ -38,7 +38,19 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    [self refresh:nil];
+    if(![[IDCAuthManager sharedInstance] isAuthorized]){
+        NSLog(@"NOT AUTHORIZED");
+
+        [self showIntro];
+    }else{
+        NSLog(@"AUTHORIZED");
+
+        UIView *view = [self.tableView viewWithTag:1991];
+        if(view){
+            [view removeFromSuperview];
+        }
+        [self refresh:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,6 +85,8 @@
                 [self.tableView reloadData];
             }else{
                 NSLog(@"ERROR: %@", error);
+                _loading = false;
+                [self.refreshControl endRefreshing];
             }
         }];
     }
@@ -185,10 +199,7 @@
 
 #pragma mark DNZ Delegate
 - (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView{
-    if(![[IDCAuthManager sharedInstance] isAuthorized]){
-        NSLog(@"Not authorized");
-        return YES;
-    }else if(_listings.count == 0){
+    if(_listings.count == 0){
         return YES;
     }
     
@@ -278,8 +289,7 @@
         LoginRegisterPagerViewController *loginView = [storyboard instantiateViewControllerWithIdentifier:@"loginRegisterPager"];
         [self.navigationController presentViewController:loginView animated:YES completion:nil];
     }else if(_listings.count == 0){
-        ListingInformationTableViewController *view = [self.storyboard instantiateViewControllerWithIdentifier:@"listingInfoView"];
-        [self.navigationController presentViewController:view animated:YES completion:nil];
+        [self performSegueWithIdentifier:@"createListingSegue" sender:self];
     }
 }
 
@@ -320,7 +330,6 @@
     }
 }
 
-
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"editViewSegue"]) {
@@ -328,6 +337,72 @@
         EditListingTableViewController *destViewController = segue.destinationViewController;
         destViewController.listing = [_listings objectAtIndex:indexPath.row];
     }
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
+    if ([identifier isEqualToString:@"createListingSegue"]) {
+        if(![[IDCAuthManager sharedInstance] isAuthorized]){
+            return NO;
+        }
+    }
+    return YES;
+}
+
+
+#pragma NOT LOGGED IN VIEW
+- (void)showIntro{
+    CGRect frame = self.tableView.frame;
+    frame.origin.y = 0;
+    
+    UIView *view = [[UIView alloc]initWithFrame:frame];
+    [view setTag:1991];
+    [view setBackgroundColor:[UIColor successColor]];
+    
+    UIImageView *bg = [[UIImageView alloc]initWithFrame:view.frame];
+    [bg setImage:[UIImage imageNamed:@"bg_image_listings"]];
+    [bg setContentMode:UIViewContentModeScaleAspectFill];
+    [view addSubview:bg];
+    
+    frame.size.height = (frame.size.height/10)*3.5;
+    frame.size.width = (frame.size.width/10)*8;
+    frame.origin.y = self.tableView.frame.size.height-frame.size.height-30;
+    frame.origin.x = (self.tableView.frame.size.width-frame.size.width)/2;
+    UIView *textContainer = [[UIView alloc]initWithFrame:frame];
+    [textContainer setBackgroundColor:[UIColor whiteColor]];
+    
+    UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, frame.size.width-40, 30)];
+    [title setText:@"Publica tu moto"];
+    [title setTextAlignment:NSTextAlignmentCenter];
+    [title setFont:[UIFont systemFontOfSize:20]];
+    [title setTextColor:[UIColor darkGrayColor]];
+    [textContainer addSubview:title];
+    
+    
+    UITextView *description = [[UITextView alloc]initWithFrame:CGRectMake(15, title.frame.size.height+10, frame.size.width-35, textContainer.frame.size.height-title.frame.size.height-65)];
+    [description setText:@"Crea una cuenta para publicar tu moto y recibir notificaciones directamente en tu dispositivo cuando te escriban un mensaje."];
+    [description setTextAlignment:NSTextAlignmentCenter];
+    [description setTextColor:[UIColor lighterGrayColor]];
+    [description setFont:[UIFont systemFontOfSize:14]];
+    [textContainer addSubview:description];
+    
+    
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(20, textContainer.frame.size.height-50, frame.size.width-40, 35)];
+    [button setBackgroundColor:[UIColor primaryColor]];
+    [button setTitle:@"Registrate" forState:UIControlStateNormal];
+    [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
+    [button setTintColor:[UIColor whiteColor]];
+    [button.layer setCornerRadius:2.0];
+    [button.layer setMasksToBounds:YES];
+    [button addTarget:self action:@selector(showLoginView:) forControlEvents:UIControlEventTouchUpInside];
+    [textContainer addSubview:button];
+    
+    [view addSubview:textContainer];
+    [self.tableView addSubview:view];
+}
+
+- (void)showLoginView:(id)sender{
+    LoginRegisterPagerViewController *loginView = [self.storyboard instantiateViewControllerWithIdentifier:@"loginRegisterPager"];
+    [self.navigationController presentViewController:loginView animated:YES completion:nil];
 }
 
 

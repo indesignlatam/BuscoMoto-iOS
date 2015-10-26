@@ -20,9 +20,6 @@
 
 @property (nonatomic, retain) CBZSplashView *splashView;
 
-- (void)saveContext;
-- (NSURL *)applicationDocumentsDirectory;
-
 
 @end
 

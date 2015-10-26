@@ -195,7 +195,9 @@
             }];
             [alert addAction:okAction];
             
-            [self presentViewController:alert animated:YES completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
         }else if(indexPath.row == 1){
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Kilometraje" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
@@ -224,7 +226,9 @@
             }];
             [alert addAction:okAction];
             
-            [self presentViewController:alert animated:YES completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
         }else if(indexPath.row == 2){
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Modelo (Año)" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
@@ -253,7 +257,9 @@
             }];
             [alert addAction:okAction];
             
-            [self presentViewController:alert animated:YES completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
         }else if(indexPath.row == 3){
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Placa" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
@@ -282,7 +288,9 @@
             }];
             [alert addAction:okAction];
             
-            [self presentViewController:alert animated:YES completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
         }else if(indexPath.row == 4){
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Color" message:nil preferredStyle:UIAlertControllerStyleAlert];
             [alert addTextFieldWithConfigurationHandler:^(UITextField *textField){
@@ -309,7 +317,9 @@
             }];
             [alert addAction:okAction];
             
-            [self presentViewController:alert animated:YES completion:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:alert animated:YES completion:nil];
+            });
         }else if(indexPath.row == 5){
             
         }else if(indexPath.row == 6){

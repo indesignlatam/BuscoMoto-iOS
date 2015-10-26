@@ -22,3 +22,4 @@ pod 'DZNEmptyDataSet'
 
 pod 'LMDropdownView'
 pod 'EAIntroView'
+pod 'CRToast'

@@ -8,8 +8,7 @@
 
 #import "ProfileTableViewController.h"
 #import "EAIntroView.h"
-#import "LoginViewController.h"
-#import "RegisterViewController.h"
+#import "LoginRegisterPagerViewController.h"
 
 @interface ProfileTableViewController ()
 
@@ -17,10 +16,18 @@
 
 @implementation ProfileTableViewController
 
+static NSString * const K_KEYCHAIN_STORE = @"com.IDC.BMCO";
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setTitle:@"Perfil de Usuario"];
+    
+    UICKeyChainStore *store = [UICKeyChainStore keyChainStoreWithService:K_KEYCHAIN_STORE];
+    NSNumberFormatter *f = [[NSNumberFormatter alloc]init];
+    _user = [User MR_findFirstByAttribute:@"userID" withValue:[f numberFromString:[store stringForKey:@"userID"]]];
+
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -29,29 +36,59 @@
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithTitle:@"" style:UIBarButtonItemStyleDone target:self action:@selector(saveProfile:)];
     self.navigationItem.rightBarButtonItem = saveButton;
     
+    
+    
     [_cellName.textLabel setText:@"Nombre"];
-    [_cellName.detailTextLabel setText:@""];
-    
     [_cellEmail.textLabel setText:@"Correo"];
-    [_cellEmail.detailTextLabel setText:@""];
-    
     [_cellPhone1.textLabel setText:@"Telefono"];
-    [_cellPhone1.detailTextLabel setText:@""];
-    
     [_cellPhone2.textLabel setText:@"Telefono 2"];
-    [_cellPhone2.detailTextLabel setText:@""];
-    
     [_cellAddress.textLabel setText:@"Dirección"];
-    [_cellAddress.detailTextLabel setText:@""];
-    
     [_descriptionTextView setPlaceholder:@"Descripción"];
-    [_descriptionTextView setText:@""];
+    
+    if(_user){
+        [_cellName.detailTextLabel setText:_user.name];
+        [_cellEmail.detailTextLabel setText:_user.email];
+        [_cellPhone1.detailTextLabel setText:_user.phone1];
+        [_cellPhone2.detailTextLabel setText:_user.phone2];
+        [_cellAddress.detailTextLabel setText:@""];
+        [_descriptionTextView setText:_user.descriptionText];
+    }else{
+        [_cellName.detailTextLabel setText:@""];
+        [_cellEmail.detailTextLabel setText:@""];
+        [_cellPhone1.detailTextLabel setText:@""];
+        [_cellPhone2.detailTextLabel setText:@""];
+        [_cellAddress.detailTextLabel setText:@""];
+        [_descriptionTextView setText:@""];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if(!_user){
+    
+    if(![[IDCAuthManager sharedInstance] isAuthorized]){
+        NSLog(@"NOT AUTHORIZED");
         [self showIntro];
+    }else{
+        NSLog(@"AUTHORIZED");
+        // GET USER DATA
+        UICKeyChainStore *store = [UICKeyChainStore keyChainStoreWithService:K_KEYCHAIN_STORE];
+        NSNumberFormatter *f = [[NSNumberFormatter alloc]init];
+        _user = [User MR_findFirstByAttribute:@"userID" withValue:[f numberFromString:[store stringForKey:@"userID"]]];
+        
+        // SHOW USER DATA
+        [_cellName.detailTextLabel setText:_user.name];
+        [_cellEmail.detailTextLabel setText:_user.email];
+        [_cellPhone1.detailTextLabel setText:_user.phone1];
+        [_cellPhone2.detailTextLabel setText:_user.phone2];
+        [_cellAddress.detailTextLabel setText:@""];
+        [_descriptionTextView setText:_user.descriptionText];
+        
+        
+        // REMOVE INTRO VIEW
+        UIView *view = [self.tableView viewWithTag:1991];
+        if(view){
+            [view removeFromSuperview];
+        }
     }
 }
 
@@ -296,13 +333,13 @@
     frame.origin.y = 0;
     
     UIView *view = [[UIView alloc]initWithFrame:frame];
+    [view setTag:1991];
     [view setBackgroundColor:[UIColor successColor]];
     
     UIImageView *bg = [[UIImageView alloc]initWithFrame:view.frame];
-    [bg setImage:[UIImage imageNamed:@"bg_image"]];
+    [bg setImage:[UIImage imageNamed:@"bg_image_profile"]];
     [bg setContentMode:UIViewContentModeScaleAspectFill];
     [view addSubview:bg];
-    
     
     frame.size.height = (frame.size.height/10)*3.5;
     frame.size.width = (frame.size.width/10)*8;
@@ -312,7 +349,7 @@
     [textContainer setBackgroundColor:[UIColor whiteColor]];
     
     UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, frame.size.width-40, 30)];
-    [title setText:@"Publica tu moto"];
+    [title setText:@"Perfíl de usuario"];
     [title setTextAlignment:NSTextAlignmentCenter];
     [title setFont:[UIFont systemFontOfSize:20]];
     [title setTextColor:[UIColor darkGrayColor]];
@@ -320,24 +357,30 @@
     
     
     UITextView *description = [[UITextView alloc]initWithFrame:CGRectMake(15, title.frame.size.height+10, frame.size.width-35, textContainer.frame.size.height-title.frame.size.height-65)];
-    [description setText:@"Miaw miaw miaw miaw miaw miaw miaw miaw miaw"];
+    [description setText:@"Inicia sesión para crear tu perfíl y facilitar la busqueda, envio de mensajes y notificaciones en la aplicación."];
     [description setTextAlignment:NSTextAlignmentCenter];
     [description setTextColor:[UIColor lighterGrayColor]];
+    [description setFont:[UIFont systemFontOfSize:14]];
     [textContainer addSubview:description];
     
     
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(20, textContainer.frame.size.height-50, frame.size.width-40, 35)];
     [button setBackgroundColor:[UIColor primaryColor]];
-    [button setTitle:@"Crea una cuenta" forState:UIControlStateNormal];
-    [button.titleLabel setFont:[UIFont systemFontOfSize:12]];
+    [button setTitle:@"Registrate" forState:UIControlStateNormal];
+    [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
     [button setTintColor:[UIColor whiteColor]];
     [button.layer setCornerRadius:2.0];
     [button.layer setMasksToBounds:YES];
+    [button addTarget:self action:@selector(showLoginView:) forControlEvents:UIControlEventTouchUpInside];
     [textContainer addSubview:button];
-    
     
     [view addSubview:textContainer];
     [self.tableView addSubview:view];
+}
+
+- (void)showLoginView:(id)sender{
+    LoginRegisterPagerViewController *loginView = [self.storyboard instantiateViewControllerWithIdentifier:@"loginRegisterPager"];
+    [self.navigationController presentViewController:loginView animated:YES completion:nil];
 }
 
 @end

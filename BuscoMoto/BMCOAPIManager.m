@@ -38,7 +38,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"GET"
-                                                    forPath:@"v2/user_email"
+                                                    forPath:@"api/v2/user_email"
                                              withParameters:@{@"email" : email}];
     [manager authorizedOp:op
                 onSuccess:^() {
@@ -57,6 +57,9 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"%@", localizedDescription);
+                    if(op.error.code == -1009){
+                        [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+                    }
                     completionBlock(nil, op.error);
                 }];
 }
@@ -65,7 +68,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"PUT"
-                                                    forPath:[NSString stringWithFormat:@"v2/user/%@", userID]
+                                                    forPath:[NSString stringWithFormat:@"api/v2/user/%@", userID]
                                              withParameters:params];
     [manager authorizedOp:op
                 onSuccess:^() {
@@ -84,6 +87,9 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"%@", localizedDescription);
+                    if(op.error.code == -1009){
+                        [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+                    }
                     completionBlock(nil, op.error);
                 }];
 }
@@ -92,16 +98,19 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"GET"
-                                                    forPath:@"v2/user/listings"
+                                                    forPath:@"api/v2/user/listings"
                                              withParameters:nil];
     [manager authorizedOp:op
                 onSuccess:^() {
                     @try {
                         if([op.responseObject isKindOfClass:[NSDictionary class]]){
-                            NSArray *jsonData = [op.responseObject objectForKey:@"data"];
-                            if(jsonData){
-                                NSArray *listigns = [EKManagedObjectMapper arrayOfObjectsFromExternalRepresentation:jsonData withMapping:[Listing objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-                                completionBlock(listigns, nil);
+                            if([op.responseObject objectForKey:@"data"]){
+                                NSDictionary *data = [op.responseObject objectForKey:@"data"];
+                                NSArray *jsonData = [data objectForKey:@"listings"];
+                                if(jsonData){
+                                    NSArray *listigns = [EKManagedObjectMapper arrayOfObjectsFromExternalRepresentation:jsonData withMapping:[Listing objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                    completionBlock(listigns, nil);
+                                }
                             }
                         }
                     }@catch (NSException *ex) {
@@ -110,6 +119,9 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"%@", localizedDescription);
+                    if(op.error.code == -1009){
+                        [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+                    }
                     completionBlock(nil, op.error);
                 }];
 }
@@ -118,7 +130,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"POST"
-                                                    forPath:[NSString stringWithFormat:@"%@%@%@", @"v2/listings/", objectID, @"/like"]
+                                                    forPath:[NSString stringWithFormat:@"api/v2/listings/%@/like", objectID]
                                              withParameters:nil];
     [manager authorizedOp:op
                 onSuccess:^() {
@@ -135,6 +147,9 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"%@", localizedDescription);
+                    if(op.error.code == -1009){
+                        [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+                    }
                     completionBlock(nil, op.error);
                 }];
 }
@@ -143,7 +158,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"POST"
-                                                    forPath:@"v2/listings"
+                                                    forPath:@"api/v2/listings"
                                              withParameters:params];
     [manager authorizedOp:op
                 onSuccess:^() {
@@ -164,6 +179,9 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"%@", localizedDescription);
+                    if(op.error.code == -1009){
+                        [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+                    }
                     completionBlock(nil, op.error);
                 }];
 }
@@ -172,7 +190,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"PUT"
-                                                    forPath:[NSString stringWithFormat:@"v2/listings/%@", objectID]
+                                                    forPath:[NSString stringWithFormat:@"api/v2/listings/%@", objectID]
                                              withParameters:params];
     [manager authorizedOp:op
                 onSuccess:^() {
@@ -193,6 +211,9 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"%@", localizedDescription);
+                    if(op.error.code == -1009){
+                        [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+                    }
                     completionBlock(nil, op.error);
                 }];
 }
@@ -202,7 +223,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"POST"
-                                                    forPath:@"v2/listings/image"
+                                                    forPath:@"api/v2/listings/image"
                                              withParameters:params
                                                   bodyBlock:^(id <AFMultipartFormData>formData) {
                                                       NSData *data = UIImageJPEGRepresentation(image, 0.8);
@@ -224,6 +245,9 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"ERROR: %@", localizedDescription);
+                    if(op.error.code == -1009){
+                        [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+                    }
                     completionBlock(nil, op.error);
                 }];
 }
@@ -232,7 +256,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"DELETE"
-                                                    forPath:[NSString stringWithFormat:@"v2/listings/image/%@", imageID]
+                                                    forPath:[NSString stringWithFormat:@"api/v2/listings/image/%@", imageID]
                                              withParameters:nil];
     [manager authorizedOp:op
                 onSuccess:^() {
@@ -248,6 +272,9 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"ERROR: %@", localizedDescription);
+                    if(op.error.code == -1009){
+                        [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+                    }
                     completionBlock(nil, op.error);
                 }];
 }
@@ -256,7 +283,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"POST"
-                                                    forPath:[NSString stringWithFormat:@"v2/listings/%@/renovate", objectID]
+                                                    forPath:[NSString stringWithFormat:@"api/v2/listings/%@/renovate", objectID]
                                              withParameters:nil];
     [manager authorizedOp:op
                 onSuccess:^() {
@@ -265,7 +292,7 @@
                             id data = [op.responseObject objectForKey:@"data"];
                             if([data isKindOfClass:[NSDictionary class]]){
                                 Listing *listing = [Listing objectWithProperties:data inContext:[NSManagedObjectContext MR_defaultContext]];
-                                completionBlock(listing, nil);
+                                completionBlock(listing , nil);
                             }
                         }
                     }@catch (NSException *ex) {
@@ -274,6 +301,9 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"%@", localizedDescription);
+                    if(op.error.code == -1009){
+                        [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+                    }
                     completionBlock(nil, op.error);
                 }];
 }
@@ -282,7 +312,7 @@
     IDCAuthManager *manager = [IDCAuthManager sharedInstance];
     IDCAuthOp *op = [[IDCAuthOp alloc] initWithAFHTTPClient:manager.httpRequestOpManager
                                               requestMethod:@"DELETE"
-                                                    forPath:[NSString stringWithFormat:@"v2/listings/%@", objectID]
+                                                    forPath:[NSString stringWithFormat:@"api/v2/listings/%@", objectID]
                                              withParameters:nil];
     [manager authorizedOp:op
                 onSuccess:^() {
@@ -299,6 +329,9 @@
                 }
                 onFailure:^(NSString *localizedDescription) {
                     NSLog(@"%@", localizedDescription);
+                    if(op.error.code == -1009){
+                        [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+                    }
                     completionBlock(nil, op.error);
                 }];
 }

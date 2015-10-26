@@ -19,13 +19,17 @@
 
 #import "IDCAuthManager.h"
 
-static NSString * const K_BASEURL       = @"http://lapi.buscomoto.co/";
-//static NSString * const K_BASEURL       = @"http://dev.buscomoto.co/";
-static NSString * const K_CLIENTID      = @"pruebas";
-static NSString * const K_CLIENTSECRET  = @"246253d6839bc36084d19545a0d1b88fe07ee099";
+static NSString * const K_CLIENTID      = @"G7JSlKXRTdSjjZyIW3xgnHoXYIwyRi9o";
+static NSString * const K_CLIENTSECRET  = @"wiAFaJ69KxFKZeUG9MlLZx2LD3kpyFIY";
 static NSString * const K_TOKENPATH     = @"oauth/access_token";
 
-
+#if (TARGET_IPHONE_SIMULATOR)
+static NSString * const K_BASEURL = @"http://lapi.buscomoto.co/";
+#elif !(TARGET_IPHONE_SIMULATOR)
+static NSString * const K_BASEURL = @"http://dev.buscomoto.co/";
+#else
+static NSString * const K_BASEURL = @"http://lapi.buscomoto.co/";
+#endif
 
 @implementation IDCAuthManager
 
@@ -94,7 +98,7 @@ static NSString * const K_TOKENPATH     = @"oauth/access_token";
                                         scope:@""
     success:^(AFOAuthCredential *credential) {
         [AFOAuthCredential storeCredential:credential withIdentifier:self.serviceProviderIdentifier];
-        NSLog(@"Credentials retrived");
+        NSLog(@"Credentials retrived: %@", credential);
         self.creds = credential;
         success(credential);
     }
@@ -140,9 +144,9 @@ static NSString * const K_TOKENPATH     = @"oauth/access_token";
                                 onSuccess:success
                                 onFailure:failure];
                 }else{
-//                    if (401 <= status && status < 500){
-//                        [self resignAuthorization];
-//                    }
+                    if (401 == status){
+                        [self resignAuthorization];
+                    }
                     NSError *error = [op error];
                     failure(error.userInfo[@"NSLocalizedDescription"]);
                 }

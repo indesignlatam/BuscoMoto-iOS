@@ -183,6 +183,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FC0CEC7A1BD53248002B2E9E /* Search View */ = {
+			isa = PBXGroup;
+			children = (
+				FC7307F11BB4303F00721AC6 /* SearchViewController.h */,
+				FC7307F21BB4303F00721AC6 /* SearchViewController.m */,
+				FC98D4CF1BA5B968003CA233 /* ListingsTableViewController.h */,
+				FC98D4D01BA5B968003CA233 /* ListingsTableViewController.m */,
+			);
+			name = "Search View";
+			sourceTree = "<group>";
+		};
 		FC19035D1BC1D3AB0062E24D /* My Listings */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,10 +393,7 @@
 			isa = PBXGroup;
 			children = (
 				FC6380291BBEDE7900488F4A /* Login */,
-				FC7307F11BB4303F00721AC6 /* SearchViewController.h */,
-				FC7307F21BB4303F00721AC6 /* SearchViewController.m */,
-				FC98D4CF1BA5B968003CA233 /* ListingsTableViewController.h */,
-				FC98D4D01BA5B968003CA233 /* ListingsTableViewController.m */,
+				FC0CEC7A1BD53248002B2E9E /* Search View */,
 				FC785ADB1BCC2E2E003170BC /* Listing View */,
 				FC19035D1BC1D3AB0062E24D /* My Listings */,
 				FCAA0BA31BCFE34E0052F81B /* ProfileTableViewController.h */,

@@ -28,6 +28,9 @@
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
     
+    // A little trick for removing the cell separators
+    self.tableView.tableFooterView = [UIView new];
+    
     _currentPage = [NSNumber numberWithInt:0];
     
     UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
@@ -55,8 +58,9 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
     if (endScrolling >= scrollView.contentSize.height){
-        NSLog(@"No more listings to load: %@ - %@", _lastPage, _currentPage);
+        NSLog(@"PAGES: %@ - %@", _lastPage, _currentPage);
         if(_lastPage && _lastPage > _currentPage){
+            NSLog(@"LOADING");
             [self loadData:true];
         }
     }
@@ -82,13 +86,12 @@
             page = [NSNumber numberWithInt:self.currentPage.intValue+1];
         }
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"page" : page,
-                                                                                      @"take" : [NSNumber numberWithInt:5],
+                                                                                      @"take" : [NSNumber numberWithInt:10],
                                                                                       }];
         // Clean params
         [params addEntriesFromDictionary:_params];
         [params removeObjectForKey:@"selectedManufacturersRows"];
         [params removeObjectForKey:@"selectedModelsRows"];
-        
         NSLog(@"PARAMS: %@", params);
         [[BMCONoAUTHAPIManager sharedInstance] GETListingsWithParams:params onCompletion:^(NSArray *data, NSDictionary *paginator, NSError *error) {
             if (!error){
@@ -114,6 +117,8 @@
                 [self.tableView reloadData];
             }else{
                 NSLog(@"ERROR: %@", error);
+                loading = false;
+                [self.refreshControl endRefreshing];
             }
             [[appDelegate splashView] startAnimation];
         }];

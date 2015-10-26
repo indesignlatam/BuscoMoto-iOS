@@ -66,16 +66,16 @@
         [mapping mapKeyPath:@"featured_expires_at" toProperty:@"featuredExpiresAt" withDateFormatter:[IDCDate webServiceFormatter]];
         [mapping mapKeyPath:@"expires_at" toProperty:@"expiresAt" withDateFormatter:[IDCDate webServiceFormatter]];
         [mapping mapKeyPath:@"updated_at" toProperty:@"updatedAt" withDateFormatter:[IDCDate webServiceFormatter]];
-        
+
         // Relationships
         [mapping hasOne:[User class] forKeyPath:@"user"];
         [mapping hasOne:[Manufacturer class] forKeyPath:@"manufacturer"];
-        [mapping hasOne:[Reference class] forKeyPath:@"model" forProperty:@"reference"];
         [mapping hasOne:[City class] forKeyPath:@"city"];
         [mapping hasOne:[ListingType class] forKeyPath:@"listing_type" forProperty:@"type"];
         [mapping hasMany:[Image class] forKeyPath:@"images"];
         [mapping hasMany:[Feature class] forKeyPath:@"features"];
-        
+        [mapping hasOne:[Reference class] forKeyPath:@"model" forProperty:@"reference"];
+
         mapping.primaryKey = @"listingID";
     }];
 }

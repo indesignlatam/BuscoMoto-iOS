@@ -18,6 +18,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setTitle:@"Inicia Sesión"];
+    
     // Do any additional setup after loading the view.
     self.isProgressiveIndicator = YES;
     self.isElasticIndicatorLimit = YES;

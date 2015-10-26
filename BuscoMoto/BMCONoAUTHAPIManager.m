@@ -14,8 +14,13 @@
 #import "Reference.h"
 #import "Feature.h"
 
+#if (TARGET_IPHONE_SIMULATOR)
 static NSString * const connectionManagerBaseURL = @"http://lapi.buscomoto.co/v2";
-//static NSString * const connectionManagerBaseURL = @"http://dev.buscomoto.co/api/v2";
+#elif !(TARGET_IPHONE_SIMULATOR)
+static NSString * const connectionManagerBaseURL = @"http://dev.buscomoto.co/api/v2";
+#else
+static NSString * const connectionManagerBaseURL = @"http://lapi.buscomoto.co/v2";
+#endif
 
 @implementation BMCONoAUTHAPIManager
 
@@ -68,6 +73,7 @@ static NSString * const connectionManagerBaseURL = @"http://lapi.buscomoto.co/v2
             if([responseObject isKindOfClass:[NSDictionary class]]){
                 paginator = [responseObject mutableCopy];
                 NSArray *jsonData = [responseObject objectForKey:@"data"];
+                NSLog(@"DATA: %@", jsonData);
                 if(jsonData){
                     objects = [EKManagedObjectMapper arrayOfObjectsFromExternalRepresentation:jsonData withMapping:[Listing objectMapping] inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
                 }
@@ -80,6 +86,9 @@ static NSString * const connectionManagerBaseURL = @"http://lapi.buscomoto.co/v2
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Error fetching user: %@", error);
+        if(error.code == -1009){
+            [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+        }
         completionBlock(nil, nil, error);
     }];
 }
@@ -101,6 +110,9 @@ static NSString * const connectionManagerBaseURL = @"http://lapi.buscomoto.co/v2
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"ERROR ON MESSAGE: %@", error);
+        if(error.code == -1009){
+            [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+        }
         completionBlock(nil, error);
     }];
 }
@@ -132,7 +144,9 @@ static NSString * const connectionManagerBaseURL = @"http://lapi.buscomoto.co/v2
             NSLog(@"Exception catched: %@", ex.description);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-//        NSString* errorStr = [[NSString alloc] initWithData:error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
+        if(error.code == -1009){
+            [CRToastManager showNotificationWithMessage:@"No estas conectado a internet" completionBlock:nil];
+        }
         
         NSLog(@"ERROR: %@", error);
         completionBlock(nil, error);
